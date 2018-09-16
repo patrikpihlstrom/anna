@@ -1,9 +1,10 @@
 class Test:
-    def __init__(self, name, order, events, expected_result):
+    def __init__(self, name, order, events, expected_result, url):
         self.name = name
         self.order = order
         self.events = events
         self.expected_result = expected_result
+        self.url = url
 
     def assert_result(self, driver):
         result = {'name': self.name, 'driver': driver.name, 'assertions': []}

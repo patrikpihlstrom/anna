@@ -2,7 +2,6 @@
 
 import json
 import operator
-import sys
 import time
 from pprint import pprint
 
@@ -21,11 +20,11 @@ class Storobot:
     def __init__(self, config, tests):
         self.config = config
         for key, val in tests.items():
-            self.tests.append(Test(key, val['order'], val['events'], val['expected_result']))
+            self.tests.append(Test(key, val['order'], val['events'], val['expected_result'], val['url']))
         self.tests = sorted(self.tests, key=operator.attrgetter('order'))
 
     def get_driver(self, name):
-        if name== 'chrome':
+        if name == 'chrome':
             return webdriver.Chrome()
         elif name == 'firefox':
             return webdriver.Firefox()
@@ -43,28 +42,25 @@ class Storobot:
             if 'id' in target:
                 element = self.driver.find_element_by_id(target['id'])
             elif 'class' in target:
-                    element = self.driver.find_elements_by_class_name(target['class'])[0]
+                element = self.driver.find_elements_by_class_name(target['class'])[0]
             elif 'href' in target:
                 element = self.driver.find_element_by_xpath("//a[@href='" + target['href'] + "']")
         except:
-            return False
+            raise AttributeError('unable to get element: ' + str(target))
         return element
 
     def send_keys(self, event):
         element = self.get_element(event['target'])
-        if element != False:
-            v = event['value'].encode('ascii', 'ignore').decode("utf-8")
-            element.send_keys(v)
+        v = event['value'].encode('ascii', 'ignore').decode("utf-8")
+        element.send_keys(v)
 
     def submit(self, event):
         element = self.get_element(event['target'])
-        if element != False:
-            element.submit()
+        element.submit()
 
     def click(self, event):
         element = self.get_element(event['target'])
-        if element != False:
-            element.click()
+        element.click()
 
     def run(self):
         for driver_name in config['drivers']:
@@ -73,17 +69,19 @@ class Storobot:
             for test in self.tests:
                 event = None
                 try:
+                    self.driver.get(test.url)
                     for event in test.events:
-                        if (event['type'] == 'click'):
+                        if event['type'] == 'click':
                             self.click(event)
-                        elif (event['type'] == 'sendkeys'):
+                        elif event['type'] == 'sendkeys':
                             self.send_keys(event)
-                        elif (event['type'] == 'submit'):
+                        elif event['type'] == 'submit':
                             self.submit(event)
                     time.sleep(5)
                     self.results.append(test.assert_result(self.driver))
-                except:
-                    self.exceptions.append({'name': test.name, 'event': event, 'exception': str(sys.exc_info()[0])})
+                except Exception as e:  # log any and all exceptions that occur during tests
+                    self.exceptions.append(
+                        {'test': test.name, 'driver': self.driver.name, 'event': event, 'exception': repr(e)})
                     pass
             self.close()
         self.print_results()
@@ -97,7 +95,8 @@ class Storobot:
             print('Exceptions: ')
             pprint(self.exceptions)
 
-        failed = [result for result in self.results if any(assertion['pass'] == False for assertion in result['assertions'])]
+        failed = [result for result in self.results if
+                  any(assertion['pass'] == False for assertion in result['assertions'])]
         if len(failed) > 0:
             pprint(failed)
         elif len(self.exceptions) == 0:
