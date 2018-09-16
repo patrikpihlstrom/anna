@@ -2,4 +2,6 @@
 *.swo
 geckodriver.log
 config.json
+tests.json
+.idea
 

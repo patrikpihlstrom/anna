@@ -9,9 +9,9 @@ with codecs.open(readme_path, mode='r', encoding='utf-8') as f:
     description = f.read()
 
 setup(
-    name='magento-bot',
+    name='storobot',
     version='0.1',
-    url='https://github.com/patrikpihlstrom/magento-bot',
+    url='https://github.com/patrikpihlstrom/storobot',
     description=description,
-    packages=['magento_bot']
+    packages=['src']
 )

@@ -1,1 +1,1 @@
-# magento-bot
+# storobot

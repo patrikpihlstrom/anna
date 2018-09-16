@@ -1,0 +1,15 @@
+{
+	"drivers": [
+		"firefox",
+	  	"chrome"
+	],
+	"base_url": "https://somesite.com/",
+	"database": {
+        "host": "127.0.0.1",
+		"user": "user",
+		"password": "password",
+		"database": "database",
+		"prefix": ""
+	}
+}
+
