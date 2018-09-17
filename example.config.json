@@ -3,12 +3,12 @@
 		"firefox",
 	  	"chrome"
 	],
-	"base_url": "https://somesite.com/",
+	"base_url": "https://mystore.com/",
 	"database": {
-        "host": "127.0.0.1",
+        "host": "host",
 		"user": "user",
 		"password": "password",
-		"database": "database",
+		"database": "mystore",
 		"prefix": ""
 	}
 }

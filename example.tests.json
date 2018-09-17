@@ -1,52 +1,17 @@
 {
-    "login": {
-        "events": [
-            {
-                "type": "click",
-                "target": {
-                    "class": "authorization-link"
-                }
-            },
-            {
-                "type": "click",
-                "target": {
-                    "href": "https://somesite.com/customer/account/login"
-                }
-            },
-            {
-                "type": "sendkeys",
-                "target": {
-                    "id": "email"
-                },
-                "value": "test@somesite.com"
-            },
-            {
-                "type": "sendkeys",
-                "target": {
-                    "id": "pass"
-                },
-                "value": "password"
-            },
-            {
-                "type": "submit",
-                "target": {
-                    "id": "pass"
-                }
-            }
-        ],
-        "expected_result": {
-            "url": "https://somesite.com/customer/account"
-        }
-    },
-    "search": {
-        "events": {
-
-        }
-    },
-    "checkout": {
-        "events": [
-        ],
-        "expected_result": ""
-    }
+  "test_name": {
+	"order": 0,
+	"url": "https://mystore.com/",
+	"events": [
+	  {
+		"type": "click",
+		"target": {
+		  "class": "target-class"
+		}
+	  }
+	],
+	"expected_result": {
+	  "current_url": "https://mystore.com/customer/account/"
+	}
+  }
 }
-
