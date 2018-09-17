@@ -7,6 +7,7 @@ from pprint import pprint
 
 from selenium import webdriver
 
+from src.events import *
 from src.test import Test
 
 
@@ -37,31 +38,6 @@ class Storobot:
     def close(self):
         self.driver.close()
 
-    def get_element(self, target):
-        try:
-            if 'id' in target:
-                element = self.driver.find_element_by_id(target['id'])
-            elif 'class' in target:
-                element = self.driver.find_elements_by_class_name(target['class'])[0]
-            elif 'href' in target:
-                element = self.driver.find_element_by_xpath("//a[@href='" + target['href'] + "']")
-        except:
-            raise AttributeError('unable to get element: ' + str(target))
-        return element
-
-    def send_keys(self, event):
-        element = self.get_element(event['target'])
-        v = event['value'].encode('ascii', 'ignore').decode("utf-8")
-        element.send_keys(v)
-
-    def submit(self, event):
-        element = self.get_element(event['target'])
-        element.submit()
-
-    def click(self, event):
-        element = self.get_element(event['target'])
-        element.click()
-
     def run(self):
         for driver_name in config['drivers']:
             self.driver = self.get_driver(driver_name)
@@ -72,11 +48,15 @@ class Storobot:
                     self.driver.get(test.url)
                     for event in test.events:
                         if event['type'] == 'click':
-                            self.click(event)
+                            click(self.driver, event)
                         elif event['type'] == 'sendkeys':
-                            self.send_keys(event)
+                            send_keys(self.driver, event)
                         elif event['type'] == 'submit':
-                            self.submit(event)
+                            submit(self.driver, event)
+                        elif event['type'] == 'sleep':
+                            time.sleep(int(event['value']))
+                        elif event['type'] == 'hover':
+                            hover(self.driver, event)
                     time.sleep(5)
                     self.results.append(test.assert_result(self.driver))
                 except Exception as e:  # log any and all exceptions that occur during tests
@@ -101,7 +81,6 @@ class Storobot:
             pprint(failed)
         elif len(self.exceptions) == 0:
             print('All tests passed successfully!')
-
 
 if __name__ == '__main__':
     config = None

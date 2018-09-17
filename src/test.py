@@ -1,3 +1,6 @@
+from src.assertions import *
+
+
 class Test:
     def __init__(self, name, order, events, expected_result, url):
         self.name = name
@@ -9,7 +12,9 @@ class Test:
     def assert_result(self, driver):
         result = {'name': self.name, 'driver': driver.name, 'assertions': []}
         for key, val in self.expected_result.items():
-            val = val.encode('ascii', 'ignore').decode("utf-8")
             if key == 'current_url':
-                result['assertions'].append({'key': key, 'pass': driver.current_url == val})
+                val = val.encode('ascii', 'ignore').decode("utf-8")
+                result['assertions'].append(current_url(driver, val))
+            elif key == 'element_exists':
+                result['assertions'].append(element_exists(driver, val))
         return result
