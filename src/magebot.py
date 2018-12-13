@@ -1,22 +1,20 @@
 #!/usr/bin/python
 
 import json
-import time
 from pprint import pprint
 
 from selenium import webdriver
 
-from src.events import *
+import src.events as events
 from src.test import Test
 
 
-class Storobot:
-    config = None
-    driver = None
-    tests = {}
+class Magebot:
+    config = driver = None
     sequence = []
     results = []
     exceptions = []
+    tests = {}
 
     def __init__(self, config, tests):
         self.config = config
@@ -27,12 +25,16 @@ class Storobot:
             for order in sorted(site['sequence']):
                 self.sequence.append(site['sequence'][order])
 
-    def get_driver(self, name):
+    @staticmethod
+    def get_driver(name):
         if name == 'chrome':
             return webdriver.Chrome()
         elif name == 'firefox':
             return webdriver.Firefox()
-
+        elif name == 'ie':
+            return webdriver.Ie()
+        elif name == 'edge':
+            return webdriver.Edge()
         return False
 
     def open(self, base_url):
@@ -41,30 +43,13 @@ class Storobot:
     def close(self):
         self.driver.close()
 
-    def run_test(self, site, test):
+    def run_test(self, test):
         event = None
         try:
             for event in test.events:
-                if isinstance(event, str):
-                    sub_test = event.lstrip('@')
-                    if sub_test in self.tests[site]:
-                        sub_test = self.tests[site][sub_test]
-                    if isinstance(sub_test, Test):
-                        self.run_test(site, sub_test)
-                else:
-                    if event['type'] == 'click':
-                        click(self.driver, event)
-                    elif event['type'] == 'sendkeys':
-                        send_keys(self.driver, event)
-                    elif event['type'] == 'submit':
-                        submit(self.driver, event)
-                    elif event['type'] == 'sleep':
-                        time.sleep(int(event['value']))
-                    elif event['type'] == 'hover':
-                        hover(self.driver, event)
-                    elif event['type'] == 'wait':
-                        wait(self.driver, event)
-                time.sleep(1)
+                func = getattr(events, event['type'])
+                func(self.driver, event)
+
             self.results.append(test.assert_result(self.driver))
         except Exception as e:  # log any and all exceptions that occur during tests
             self.exceptions.append(
@@ -77,13 +62,9 @@ class Storobot:
                 self.driver = self.get_driver(driver_name)
                 self.open(site)
                 for test in self.sequence:
-                    self.run_test(site, self.tests[site][test])
+                    self.run_test(self.tests[site][test])
                 self.close()
         self.print_results()
-
-    def loaded(self):
-        state = self.driver.execute_script('return document.readyState;')
-        return state == 'complete'
 
     def print_results(self):
         if len(self.exceptions) > 0:
@@ -91,7 +72,7 @@ class Storobot:
             pprint(self.exceptions)
 
         failed = [result for result in self.results if
-                  any(not assertion['pass'] for assertion in result['assertions'])]
+                  any(not assertion['pass'] for assertion in result['assertions'])]  # list comprehension <3
         if len(failed) > 0:
             pprint(failed)
         elif len(self.exceptions) == 0:
@@ -99,12 +80,10 @@ class Storobot:
 
 
 if __name__ == '__main__':
-    config = None
-    tests = None
     with open('../config.json') as config:
         config = json.load(config)
 
     with open('../tests.json') as tests:
         tests = json.load(tests)
-        robot = Storobot(config, tests)
+        robot = Magebot(config, tests)
         robot.run()
