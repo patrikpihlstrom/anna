@@ -1,4 +1,4 @@
-# storobot
+# mage-bot
 **Store testing software using selenium**
 ## Configuration definition
 Configuration values for drivers and database credentials are defined in ```config.json``` and should conform to the following format:
