@@ -22,24 +22,24 @@ Configuration values for drivers and database credentials are defined in ```conf
 Tests are defined in ```tests.json``` and should conform to the following format:
 ```
 {
-	"https://mystore.com/": {
-		"tests": {
-			"add_to_cart": {
-				"events": [
-					{
-						"type": "click",
-						"target": {
-							"class": "target-class"
-						}
-					},
-					...
-				],
-				"expected_result": {
-					"current_url": "https://mystore.com/customer/account/"
-				}
-			}
-		}
-	}
+  https://mystore.com/": {
+    "tests": {
+      "add_to_cart": {
+        "events": [
+          {
+            "type": "click",
+            "target": {
+              "class": "target-class"
+            }
+          },
+          ...
+        ],
+        "expected_result": {
+          "current_url": "https://mystore.com/customer/account/"
+        }
+      }
+    }
+  }
 }
 ```
 
