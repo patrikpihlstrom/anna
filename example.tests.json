@@ -1,17 +1,100 @@
 {
-  "test_name": {
-	"order": 0,
-	"url": "https://mystore.com/",
-	"events": [
-	  {
-		"type": "click",
-		"target": {
-		  "class": "target-class"
+  "http://caupo:caupo@template22.caupo.se": {
+	"tests": {
+	  "login_success": {
+		"events": [
+		  {
+			"type": "click",
+			"target": {
+			  "class": "authorization-link"
+			}
+		  },
+		  {
+			"type": "wait",
+			"target": {
+			  "id": "email"
+			}
+		  },
+		  {
+			"type": "sendkeys",
+			"target": {
+			  "id": "email"
+			},
+			"value": "patrik.pihlstrom@caupo.se"
+		  },
+		  {
+			"type": "sendkeys",
+			"target": {
+			  "id": "pass"
+			},
+			"value": "test1234!"
+		  },
+		  {
+			"type": "submit",
+			"target": {
+			  "id": "pass"
+			}
+		  }
+		],
+		"expected_result": {
+		  "current_url": "http://template22.caupo.se/customer/account/"
+		}
+	  },
+	  "add_to_cart": {
+		"events": [
+		  {
+			"type": "sendkeys",
+			"target": {
+			  "id": "search"
+			},
+			"value": "Cassia Funnel Sweatshirt"
+		  },
+		  {
+			"type": "submit",
+			"target": {
+			  "id": "search"
+			}
+		  },
+		  {
+			"type": "wait",
+			"target": {
+			  "class": "product-item"
+			}
+		  },
+		  {
+			"type": "hover",
+			"target": {
+			  "class": "product-item"
+			}
+		  },
+		  {
+			"type": "wait",
+			"target": {
+			  "class": "tocart"
+			}
+		  },
+		  {
+			"type": "click",
+			"target": {
+			  "class": "tocart"
+			}
+		  },
+		  {
+			"type": "wait",
+			"target": {
+			  "class": "message-success"
+			}
+		  }
+		],
+		"expected_result": {
+		  "element_exists": {
+			"class": "message-success"
+		  }
 		}
 	  }
-	],
-	"expected_result": {
-	  "current_url": "https://mystore.com/customer/account/"
+	},
+	"sequence": {
+	  "0": "add_to_cart"
 	}
   }
 }

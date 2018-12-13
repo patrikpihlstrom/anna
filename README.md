@@ -46,6 +46,7 @@ Tests are defined in ```tests.json``` and should conform to the following format
 * sendkeys ```{"type": "sendkeys", "target": {"id": "unique_element}```
 * submit ```{"type": "submit", "target": {"id": "unique_element}```
 * hover ```{"type": "hover", "target": {"id": "unique_element}```
+* wait ```{"type": "wait", "target": {"id": "unique_element}```
 
 ### Currently implemented target selectors
 * id ```{"target": {"id": "unique_element"}}```

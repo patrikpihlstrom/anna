@@ -1,7 +1,6 @@
 #!/usr/bin/python
 
 import json
-import operator
 import time
 from pprint import pprint
 
@@ -14,15 +13,19 @@ from src.test import Test
 class Storobot:
     config = None
     driver = None
-    tests = []
+    tests = {}
+    sequence = []
     results = []
     exceptions = []
 
     def __init__(self, config, tests):
         self.config = config
-        for key, val in tests.items():
-            self.tests.append(Test(key, val['order'], val['events'], val['expected_result'], val['url']))
-        self.tests = sorted(self.tests, key=operator.attrgetter('order'))
+        for url, site in tests.items():
+            self.tests[url] = {}
+            for key, val in site['tests'].items():
+                self.tests[url][key] = Test(key, val['events'], val['expected_result'], url, config['sites'])
+            for order in sorted(site['sequence']):
+                self.sequence.append(site['sequence'][order])
 
     def get_driver(self, name):
         if name == 'chrome':
@@ -32,38 +35,50 @@ class Storobot:
 
         return False
 
-    def open(self):
-        self.driver.get(self.config['base_url'])
+    def open(self, base_url):
+        self.driver.get(base_url)
 
     def close(self):
         self.driver.close()
 
+    def run_test(self, site, test):
+        event = None
+        try:
+            for event in test.events:
+                if isinstance(event, str):
+                    sub_test = event.lstrip('@')
+                    if sub_test in self.tests[site]:
+                        sub_test = self.tests[site][sub_test]
+                    if isinstance(sub_test, Test):
+                        self.run_test(site, sub_test)
+                else:
+                    if event['type'] == 'click':
+                        click(self.driver, event)
+                    elif event['type'] == 'sendkeys':
+                        send_keys(self.driver, event)
+                    elif event['type'] == 'submit':
+                        submit(self.driver, event)
+                    elif event['type'] == 'sleep':
+                        time.sleep(int(event['value']))
+                    elif event['type'] == 'hover':
+                        hover(self.driver, event)
+                    elif event['type'] == 'wait':
+                        wait(self.driver, event)
+                time.sleep(1)
+            self.results.append(test.assert_result(self.driver))
+        except Exception as e:  # log any and all exceptions that occur during tests
+            self.exceptions.append(
+                {'test': test.name, 'driver': self.driver.name, 'event': event, 'exception': repr(e)})
+            pass
+
     def run(self):
-        for driver_name in config['drivers']:
-            self.driver = self.get_driver(driver_name)
-            self.open()
-            for test in self.tests:
-                event = None
-                try:
-                    self.driver.get(test.url)
-                    for event in test.events:
-                        if event['type'] == 'click':
-                            click(self.driver, event)
-                        elif event['type'] == 'sendkeys':
-                            send_keys(self.driver, event)
-                        elif event['type'] == 'submit':
-                            submit(self.driver, event)
-                        elif event['type'] == 'sleep':
-                            time.sleep(int(event['value']))
-                        elif event['type'] == 'hover':
-                            hover(self.driver, event)
-                    time.sleep(5)
-                    self.results.append(test.assert_result(self.driver))
-                except Exception as e:  # log any and all exceptions that occur during tests
-                    self.exceptions.append(
-                        {'test': test.name, 'driver': self.driver.name, 'event': event, 'exception': repr(e)})
-                    pass
-            self.close()
+        for site, config in self.config['sites'].items():
+            for driver_name in self.config['drivers']:
+                self.driver = self.get_driver(driver_name)
+                self.open(site)
+                for test in self.sequence:
+                    self.run_test(site, self.tests[site][test])
+                self.close()
         self.print_results()
 
     def loaded(self):
@@ -76,11 +91,12 @@ class Storobot:
             pprint(self.exceptions)
 
         failed = [result for result in self.results if
-                  any(assertion['pass'] == False for assertion in result['assertions'])]
+                  any(not assertion['pass'] for assertion in result['assertions'])]
         if len(failed) > 0:
             pprint(failed)
         elif len(self.exceptions) == 0:
             print('All tests passed successfully!')
+
 
 if __name__ == '__main__':
     config = None

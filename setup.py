@@ -13,5 +13,8 @@ setup(
     version='0.1',
     url='https://github.com/patrikpihlstrom/storobot',
     description=description,
-    packages=['src']
+    packages=['src'],
+    install_requires=[
+        'selenium'
+    ]
 )
