@@ -1,7 +1,8 @@
 *.swp
 *.swo
-geckodriver.log
+*.log
 config.json
 tests.json
 .idea
 core
+*.pyc

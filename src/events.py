@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.common.exceptions import TimeoutException
 
 from src.util import get_element
+import time
 
 
 def sendkeys(driver, event):
@@ -33,6 +34,10 @@ def hover(driver, event):
     action.perform()
 
 
+def get(driver, event):
+    driver.get(event['target'])
+
+
 def wait(driver, event):
     try:
         if 'id' in event['target']:
@@ -48,3 +53,8 @@ def wait(driver, event):
         pass
 
     return False
+
+
+def sleep(driver, event):
+    time.sleep(event['value'])
+

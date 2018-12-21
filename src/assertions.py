@@ -3,7 +3,7 @@ from src.events import wait
 
 
 def current_url(driver, url):
-    return {'key': 'current_url', 'pass': driver.current_url == url}
+    return {'key': 'current_url', 'pass': driver.current_url == url, 'current': driver.current_url, 'expected': url}
 
 
 def element_exists(driver, target):

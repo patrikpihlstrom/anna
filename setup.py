@@ -9,12 +9,12 @@ with codecs.open(readme_path, mode='r', encoding='utf-8') as f:
     description = f.read()
 
 setup(
-    name='storobot',
+    name='mage-bot',
     version='0.1',
-    url='https://github.com/patrikpihlstrom/storobot',
+    url='https://gitlab.com/Caupo_tools/mage-bot',
     description=description,
     packages=['src'],
     install_requires=[
-        'selenium'
+        'selenium', 'click'
     ]
 )
