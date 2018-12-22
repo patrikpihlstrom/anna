@@ -12,7 +12,6 @@ class Test:
         result = {'name': self.name, 'url': self.url, 'driver': driver.name, 'assertions': []}
         for key, val in self.expected_result.items():
             if key == 'current_url':
-                val = val.encode('ascii', 'ignore').decode("utf-8")
                 result['assertions'].append(current_url(driver, val))
             elif key == 'element_exists':
                 result['assertions'].append(element_exists(driver, val))

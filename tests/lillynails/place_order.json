@@ -1,0 +1,67 @@
+{
+  "events": [
+    {
+      "type": "hover",
+      "target": {
+        "id": "minicart"
+      }
+    },
+    {
+      "type": "click",
+      "target": {
+        "id": "top-cart-btn-checkout"
+      }
+    },
+    {
+      "type": "switch_to",
+      "target": {
+        "class": "collector-checkout-iframe"
+      }
+    },
+    {
+      "type": "send_keys",
+      "target": {
+        "id": "customer-identify--input-email"
+      },
+      "value": "patrik.pihlstrom@caupo.se"
+    },
+    {
+      "type": "send_keys",
+      "target": {
+        "id": "customer-identify--input-phone"
+      },
+      "value": "0123456789"
+    },
+    {
+      "type": "click",
+      "target": {
+        "id": "customer-identify--button-submit"
+      }
+    },
+    {
+      "type": "send_keys",
+      "target": {
+        "id": "customer-complement--input-registration-number"
+      },
+      "value": "8010011008"
+    },
+    {
+      "type": "send_keys",
+      "target": {
+        "id": "customer-complement--input-postal-code"
+      },
+      "value": "53431"
+    },
+    {
+      "type": "click",
+      "target": {
+        "id": "purchase-perform-direct-invoice--button-submit"
+      }
+    }
+  ],
+  "expected_result": {
+    "current_url": {
+      "in": "https://stage.lillynails.se.caupo.se/collectorcheckout/success?OrderNo="
+    }
+  }
+}

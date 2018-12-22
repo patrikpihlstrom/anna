@@ -13,14 +13,14 @@
       }
     },
 	{
-	  "type": "sendkeys",
+	  "type": "send_keys",
 	  "target": {
 		"id": "email"
 	  },
 	  "value": "patrik.pihlstrom@caupo.se"
 	},
 	{
-	  "type": "sendkeys",
+	  "type": "send_keys",
 	  "target": {
 		"id": "pass"
 	  },

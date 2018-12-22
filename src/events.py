@@ -8,7 +8,7 @@ from selenium.webdriver.common.by import By
 from src.util import get_element
 
 
-def sendkeys(driver, event):
+def send_keys(driver, event):
 	wait(driver, event)
 	element = get_element(driver, event['target'])
 	v = event['value'].encode('ascii', 'ignore').decode("utf-8")
@@ -73,3 +73,7 @@ def wait(driver, event):
 
 def sleep(driver, event):
 	time.sleep(event['value'])
+
+
+def switch_to(driver, event):
+	driver.switch_to.frame(get_element(driver, event['target']))

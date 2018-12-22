@@ -7,7 +7,7 @@
 	  }
 	},
 	{
-	  "type": "sendkeys",
+	  "type": "send_keys",
 	  "target": {
 		"id": "search"
 	  },

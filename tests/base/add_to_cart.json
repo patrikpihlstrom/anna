@@ -1,7 +1,7 @@
 {
   "events": [
 	{
-	  "type": "sendkeys",
+	  "type": "send_keys",
 	  "target": {
 		"class": "input-text"
 	  },

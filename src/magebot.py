@@ -61,9 +61,12 @@ class Magebot:
 			result = test.assert_result(self.driver)
 			if not any(not assertion['pass'] for assertion in result['assertions']):
 				term.writeLine('passed', term.green)
+			else:
+				term.writeLine('failed', term.red)
 			self.results.append(result)
 		except Exception as e:  # log any and all exceptions that occur during tests
 			term.writeLine(str({'test': test.name, 'url': test.url, 'driver': self.driver.name, 'event': event, 'exception': repr(e)}), term.red)
+			self.results.append(test.assert_result(self.driver))
 			self.exceptions.append(
 				{'test': test.name, 'url': test.url, 'driver': self.driver.name, 'event': event, 'exception': repr(e)})
 			pass
@@ -87,10 +90,13 @@ class Magebot:
 			print('Exceptions: ')
 			pprint(self.exceptions)
 		failed = [result for result in self.results if any(not assertion['pass'] for assertion in result['assertions'])]
-		if len(failed) > 0:
-			pprint(failed)
-		elif len(self.exceptions) == 0:
-			print('All tests passed successfully!')
+		ratio = float(len(failed))/float(len(self.results))
+		if len(failed) == 0:
+			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.green)
+		elif ratio < 0.5:
+			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.yellow)
+		else:
+			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.red)
 
 	def set_tests(self, tests):
 		self.tests = tests
