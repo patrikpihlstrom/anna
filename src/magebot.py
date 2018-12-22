@@ -50,6 +50,8 @@ class Magebot:
 		:param test:
 		:return:
 		"""
+		if test.name == 'place_order':
+			debug = True
 		term.writeLine('Running %s@%s on %s' % (test.name, test.url, self.driver.name))
 		event = None
 		try:

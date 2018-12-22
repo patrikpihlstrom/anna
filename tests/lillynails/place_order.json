@@ -39,24 +39,20 @@
       }
     },
     {
-      "type": "send_keys",
+      "type": "click",
       "target": {
-        "id": "customer-complement--input-registration-number"
-      },
-      "value": "8010011008"
-    },
-    {
-      "type": "send_keys",
-      "target": {
-        "id": "customer-complement--input-postal-code"
-      },
-      "value": "53431"
+        "id": "purchase-method-select--button-direct-invoice"
+      }
     },
     {
       "type": "click",
       "target": {
         "id": "purchase-perform-direct-invoice--button-submit"
       }
+    },
+    {
+      "type": "sleep",
+      "value": 5
     }
   ],
   "expected_result": {

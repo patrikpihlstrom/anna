@@ -1,7 +1,7 @@
 # mage-bot
 **website testing software using selenium**
 ## Configuration definition
-Configuration values for drivers and database credentials are defined in ```config.json``` and should conform to the following format:
+Configuration values for drivers and database credentials **(TODO)** are defined in ```config.json``` and should conform to the following format:
 ```
 {
   "drivers": [
@@ -69,3 +69,9 @@ Example test definition (```tests/example/go_to_page.json```):
 ### Currently implemented assertion types
 * current_url ```{"current_url": "https://example.com/somepage"}```
 * element_exists ```{"element_exists": {"class": "some-class"}}```
+
+#### TODO
+* Change test assertion definition structure
+* Implement built-in wait in assertions
+* Implement database assertions
+* Implement subroutine processing

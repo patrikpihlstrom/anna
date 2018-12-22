@@ -14,7 +14,9 @@ def get_element(driver, target, return_list=False):
 	# default behavior is to return the first element that matches
 	if type(element) is list:
 		if len(element) == 0:
-			return None
+			raise Exception('Unable to find elements matching %s ' % str(target))
 		if not return_list:
 			return element[0]
+	elif element is None:
+		raise Exception('Unable to find elements matching %s ' % str(target))
 	return element
