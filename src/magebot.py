@@ -3,9 +3,9 @@
 from pprint import pprint
 import time
 
-from selenium import webdriver
 import term
 
+import src.driver as driver
 import src.events as events
 
 
@@ -18,28 +18,6 @@ class Magebot:
 		self.options = []
 		self.results = []
 		self.config = config
-
-	@staticmethod
-	def get_driver(name, options=[]):
-		"""
-		Returns a new webdriver by the requested name
-		pass -h to run in headless mode
-		"""
-		if name == 'chrome':
-			o = webdriver.ChromeOptions()
-			o.headless = '-h' in options
-			return webdriver.Chrome(options=o)
-		elif name == 'firefox':
-			o = webdriver.FirefoxOptions()
-			o.headless = '-h' in options
-			return webdriver.Firefox(options=o)
-		elif name == 'ie':
-			o = webdriver.IeOptions()
-			o.headless = '-h' in options
-			return webdriver.Ie(options=o)
-		elif name == 'edge':
-			return webdriver.Edge()
-		return False
 
 	def close(self):
 		self.driver.close()
@@ -80,7 +58,8 @@ class Magebot:
 		"""
 		for site in self.tests.keys():
 			for driver_name in self.config['drivers']:
-				self.driver = self.get_driver(driver_name, self.options)
+				self.driver = driver.get_driver(driver_name, self.options)
+				self.driver.set_window_size(1920, 1080)
 				self.driver.get(site)
 				for test in self.tests[site]:
 					self.run_test(test)
