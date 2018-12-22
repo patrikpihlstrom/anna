@@ -1,0 +1,8 @@
+{
+  "url": "https://stage.lillynails.se.caupo.se",
+  "sequence": {
+	"0": "login_fail",
+	"1": "login_success",
+	"2": "add_to_cart"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "events": [
+    {
+      "type": "click",
+      "target": {
+        "class": "authorization-link"
+      }
+    },
+    {
+      "type": "click",
+      "target": {
+        "href": "https://stage.lillynails.se.caupo.se/customer/account/login"
+      }
+    },
+    {
+      "type": "sendkeys",
+      "target": {
+        "id": "email"
+      },
+      "value": "patrik.pihlstrom@caupo.se"
+    },
+    {
+      "type": "sendkeys",
+      "target": {
+        "id": "pass"
+      },
+      "value": "wrong_password_123"
+    },
+    {
+      "type": "submit",
+      "target": {
+        "id": "pass"
+      }
+    }
+  ],
+  "expected_result": {
+    "element_exists": {
+      "class": "message-error"
+    }
+  }
+}

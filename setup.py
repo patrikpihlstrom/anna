@@ -15,6 +15,6 @@ setup(
     description=description,
     packages=['src'],
     install_requires=[
-        'selenium', 'click'
+        'selenium', 'py-term'
     ]
 )

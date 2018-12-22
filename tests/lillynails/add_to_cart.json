@@ -1,0 +1,34 @@
+{
+  "events": [
+	{
+	  "type": "click",
+	  "target": {
+		"id": "search"
+	  }
+	},
+	{
+	  "type": "sendkeys",
+	  "target": {
+		"id": "search"
+	  },
+	  "value": "Gel Polish"
+	},
+	{
+	  "type": "submit",
+	  "target": {
+		"id": "search"
+	  }
+	},
+	{
+	  "type": "click",
+	  "target": {
+		"class": "tocart"
+	  }
+	}
+  ],
+  "expected_result": {
+	"element_exists": {
+	  "class": "message-success"
+	}
+  }
+}
