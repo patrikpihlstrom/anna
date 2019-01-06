@@ -1,20 +1,19 @@
-import os
-import codecs
-from setuptools import setup
+import setuptools
 
-readme_path = os.path.join(os.path.dirname(__file__), 'README.md')
-description = None
-
-with codecs.open(readme_path, mode='r', encoding='utf-8') as f:
+with open('README.md', 'r') as f:
     description = f.read()
 
-setup(
-    name='mage-bot',
-    version='0.1',
-    url='https://gitlab.com/Caupo_tools/mage-bot',
-    description=description,
-    packages=['src'],
+setuptools.setup(
+    name='magebot',
+    version='0.1.2',
+    author='Patrik Pihlstrom',
+    author_email='patrik.pihlstrom@gmail.com',
+    url='https://github.com/patrikpihlstrom/mage-bot.git',
+    description='simulated & automated testing software',
+    long_description=description,
+    long_description_content_type='text/markdown',
+    packages=setuptools.find_packages(),
     install_requires=[
-        'selenium', 'py-term'
+        'selenium'
     ]
 )

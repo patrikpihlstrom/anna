@@ -1,8 +1,10 @@
+#!/usr/bin/env python
+
 import json
 from sys import argv
 
-from src.magebot import Magebot
-from src.test_manager import get_tests
+from magebot import Magebot
+from test_manager import get_tests
 
 if __name__ == '__main__':
 	with open('../config.json') as config:

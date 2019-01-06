@@ -1,12 +1,9 @@
 #!/usr/bin/python
 
-from pprint import pprint
 import time
 
-import term
-
-import src.driver as driver
-import src.events as events
+import driver
+import events
 
 
 class Magebot:
@@ -18,6 +15,7 @@ class Magebot:
 		self.options = []
 		self.results = []
 		self.config = config
+		self.colors = ['\033[0m', '\033[92m', '\033[91m', '\033[93m']
 
 	def close(self):
 		self.driver.close()
@@ -28,9 +26,7 @@ class Magebot:
 		:param test:
 		:return:
 		"""
-		if test.name == 'place_order':
-			debug = True
-		term.writeLine('Running %s@%s on %s' % (test.name, test.url, self.driver.name))
+		print('Running %s @ %s on %s' % (test.name, test.url, self.driver.name))
 		event = None
 		try:
 			for event in test.events:
@@ -40,15 +36,12 @@ class Magebot:
 			time.sleep(2)
 			result = test.assert_result(self.driver)
 			if not any(not assertion['pass'] for assertion in result['assertions']):
-				term.writeLine('passed', term.green)
+				print(self.colors[1] + 'passed' + self.colors[0])
 			else:
-				term.writeLine('failed', term.red)
+				print(self.colors[2] + 'failed' + self.colors[0])
 			self.results.append(result)
 		except Exception as e:  # log any and all exceptions that occur during tests
-			term.writeLine(str({'test': test.name, 'url': test.url, 'driver': self.driver.name, 'event': event, 'exception': repr(e)}), term.red)
-			self.results.append(test.assert_result(self.driver))
-			self.exceptions.append(
-				{'test': test.name, 'url': test.url, 'driver': self.driver.name, 'event': event, 'exception': repr(e)})
+			self.record_exception(e, test, event)
 			pass
 
 	def run(self):
@@ -67,20 +60,36 @@ class Magebot:
 		self.print_results()
 
 	def print_results(self):
-		if len(self.exceptions) > 0:
-			print('Exceptions: ')
-			pprint(self.exceptions)
-		failed = [result for result in self.results if any(not assertion['pass'] for assertion in result['assertions'])]
-		ratio = float(len(failed))/float(len(self.results))
-		if len(failed) == 0:
-			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.green)
+		failed = 0
+		for result in self.results:
+			if any(not assertion['pass'] for assertion in result['assertions']):
+				if '-v' in self.options:
+					print(self.colors[2] + str(result) + self.colors[0])
+				failed += 1
+			elif '-v' in self.options:
+				print(self.colors[1] + str(result) + self.colors[0])
+		ratio = float(failed) / float(len(self.results))
+		if failed == 0:
+			print(self.colors[1] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
 		elif ratio < 0.5:
-			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.yellow)
+			print(self.colors[2] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
 		else:
-			term.writeLine('%x/%x tests passed' % (len(self.results)-len(failed), len(self.results)), term.red)
+			print(self.colors[3] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
 
 	def set_tests(self, tests):
 		self.tests = tests
 
 	def set_option(self, arg):
 		self.options.append(arg)
+
+	def record_exception(self, e, test, event):
+		exception = {
+			'test': test.name,
+			'url': test.url,
+			'driver': self.driver.name,
+			'event': event,
+			'exception': repr(e)
+		}
+		if '-v' in self.options:
+			print(self.colors[2] + str(exception))
+		self.exceptions.append(exception)

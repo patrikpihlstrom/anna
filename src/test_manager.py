@@ -1,7 +1,7 @@
 import os
 import json
 
-from src.test import Test
+from test import Test
 
 
 def get_tests():

@@ -1,4 +1,4 @@
-from src.assertions import *
+from assertions import *
 
 
 class Test:

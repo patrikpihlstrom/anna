@@ -1,6 +1,7 @@
-import src.events as events
+import time
 
-def get_element(driver, target, return_list=False):
+
+def get_element(driver, target, return_list=False, timeout=16):
 	element = None
 	if 'id' in target:
 		element = driver.find_element_by_id(target['id'])
@@ -11,12 +12,20 @@ def get_element(driver, target, return_list=False):
 	elif 'data' in target:
 		element = driver.find_element_by_xpath(
 			"//[@" + target['data']['key'] + "='" + target['data']['value'] + "']")
+	elif 'css' in target:
+		element = driver.find_element_by_css_selector(target['css'])
 	# default behavior is to return the first element that matches
 	if type(element) is list:
 		if len(element) == 0:
-			raise Exception('Unable to find elements matching %s ' % str(target))
+			if timeout <= 0:
+				return False
+			time.sleep(1)
+			return get_element(driver, target, return_list, timeout - 1)
 		if not return_list:
 			return element[0]
 	elif element is None:
-		raise Exception('Unable to find elements matching %s ' % str(target))
+		if timeout <= 0:
+			return False
+		time.sleep(1)
+		return get_element(driver, target, return_list, timeout - 1)
 	return element

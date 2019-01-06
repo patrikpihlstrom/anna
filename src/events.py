@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.common.by import By
 
-from src.util import get_element
+from util import get_element
 
 
 def send_keys(driver, event):
@@ -24,7 +24,10 @@ def submit(driver, event):
 def click(driver, event):
 	wait(driver, event)
 	element = get_element(driver, event['target'])
-	element.click()
+	action = ActionChains(driver)
+	action.move_to_element(element)
+	action.click(element)
+	action.perform()
 
 
 def hover(driver, event):
@@ -76,4 +79,6 @@ def sleep(driver, event):
 
 
 def switch_to(driver, event):
-	driver.switch_to.frame(get_element(driver, event['target']))
+	element = get_element(driver, event['target'])
+	driver.execute_script('arguments[0].scrollIntoView(true);', element)
+	driver.switch_to.frame(element)

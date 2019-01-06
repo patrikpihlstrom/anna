@@ -1,5 +1,4 @@
-from src.util import get_element
-from src.events import wait
+from util import get_element
 
 
 def current_url(driver, url):
@@ -10,4 +9,4 @@ def current_url(driver, url):
 
 
 def element_exists(driver, target):
-	return {'key': 'element_exists', 'pass': get_element(driver, target) is not None}
+	return {'key': 'element_exists', 'pass': get_element(driver, target) not in [None, False, []]}
