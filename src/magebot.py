@@ -4,6 +4,8 @@ import time
 
 import driver
 import events
+import result
+import colors
 
 
 class Magebot:
@@ -13,9 +15,8 @@ class Magebot:
 		self.tests = {}
 		self.exceptions = []
 		self.options = []
-		self.results = []
 		self.config = config
-		self.colors = ['\033[0m', '\033[92m', '\033[91m', '\033[93m']
+		self.result = result.Result()
 
 	def close(self):
 		self.driver.close()
@@ -36,12 +37,12 @@ class Magebot:
 			time.sleep(2)
 			result = test.assert_result(self.driver)
 			if not any(not assertion['pass'] for assertion in result['assertions']):
-				print(self.colors[1] + 'passed' + self.colors[0])
+				print(colors.green + 'passed' + colors.white)
 			else:
-				print(self.colors[2] + 'failed' + self.colors[0])
-			self.results.append(result)
+				print(colors.red + 'failed' + colors.white)
+			self.result.append(result)
 		except Exception as e:  # log any and all exceptions that occur during tests
-			self.record_exception(e, test, event)
+			self.result.record_exception(e, test, event, self.options, self.driver)
 			pass
 
 	def run(self):
@@ -57,24 +58,7 @@ class Magebot:
 				for test in self.tests[site]:
 					self.run_test(test)
 				self.close()
-		self.print_results()
-
-	def print_results(self):
-		failed = 0
-		for result in self.results:
-			if any(not assertion['pass'] for assertion in result['assertions']):
-				if '-v' in self.options:
-					print(self.colors[2] + str(result) + self.colors[0])
-				failed += 1
-			elif '-v' in self.options:
-				print(self.colors[1] + str(result) + self.colors[0])
-		ratio = float(failed) / float(len(self.results))
-		if failed == 0:
-			print(self.colors[1] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
-		elif ratio < 0.5:
-			print(self.colors[2] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
-		else:
-			print(self.colors[3] + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + self.colors[0])
+		self.result.print_results(self.options)
 
 	def set_tests(self, tests):
 		self.tests = tests
@@ -82,14 +66,10 @@ class Magebot:
 	def set_option(self, arg):
 		self.options.append(arg)
 
-	def record_exception(self, e, test, event):
-		exception = {
-			'test': test.name,
-			'url': test.url,
-			'driver': self.driver.name,
-			'event': event,
-			'exception': repr(e)
-		}
-		if '-v' in self.options:
-			print(self.colors[2] + str(exception))
-		self.exceptions.append(exception)
+	def get_sites(self):
+		if any('-s' in option for option in self.options):
+			i = self.options.index('-s')
+			if len(self.options) > i+1:
+				return str(self.options[i+1]).lstrip('-s').split(',')
+		return []
+

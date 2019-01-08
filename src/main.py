@@ -11,7 +11,7 @@ if __name__ == '__main__':
 		config = json.load(config)
 
 	bot = Magebot(config)
-	bot.set_tests(get_tests())
 	for arg in argv:
 		bot.set_option(arg)
+	bot.set_tests(get_tests(bot.get_sites()))
 	bot.run()

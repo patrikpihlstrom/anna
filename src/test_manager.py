@@ -4,7 +4,7 @@ import json
 from test import Test
 
 
-def get_tests():
+def get_tests(sites=None):
 	"""
 	Parses the contents of JSON files in "mage-bot/tests/" &
 	continues to parse the test definitions in each of the files' corresponding sub-directory via the get_test function
@@ -13,12 +13,13 @@ def get_tests():
 	files = [file for file in os.listdir('../tests/') if file.endswith('.json')]
 	for file in files:
 		name = os.path.splitext(file)[0]
-		with open('../tests/' + file) as site_tests:
-			site_tests = json.load(site_tests)
-			tests[site_tests['url']] = []
-			sequence = site_tests['sequence']
-			for i in sorted(sequence):
-				tests[site_tests['url']].append(get_test(name, sequence[i], site_tests['url']))
+		if not sites or name in sites:
+			with open('../tests/' + file) as site_tests:
+				site_tests = json.load(site_tests)
+				tests[site_tests['url']] = []
+				sequence = site_tests['sequence']
+				for i in sorted(sequence):
+					tests[site_tests['url']].append(get_test(name, sequence[i], site_tests['url']))
 	return tests
 
 
