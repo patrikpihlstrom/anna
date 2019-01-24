@@ -34,7 +34,8 @@ class Magebot:
 				time.sleep(1)
 				func = getattr(events, event['type'])
 				func(self.driver, event)
-			time.sleep(2)
+				time.sleep(1)
+			time.sleep(1)
 			result = test.assert_result(self.driver)
 			if not any(not assertion['pass'] for assertion in result['assertions']):
 				print(colors.green + 'passed' + colors.white)
@@ -53,7 +54,6 @@ class Magebot:
 		for site in self.tests.keys():
 			for driver_name in self.config['drivers']:
 				self.driver = driver.get_driver(driver_name, self.options)
-				self.driver.set_window_size(1920, 1080)
 				self.driver.get(site)
 				for test in self.tests[site]:
 					self.run_test(test)
@@ -72,4 +72,3 @@ class Magebot:
 			if len(self.options) > i+1:
 				return str(self.options[i+1]).lstrip('-s').split(',')
 		return []
-

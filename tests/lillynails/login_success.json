@@ -9,7 +9,7 @@
     {
       "type": "click",
       "target": {
-		  "href": "https://stage.lillynails.se.caupo.se/customer/account/login"
+		"href": "https://stage.lillynails.se.caupo.se/customer/account/login"
       }
     },
 	{

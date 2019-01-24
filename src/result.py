@@ -25,9 +25,9 @@ class Result:
 			ratio = 1
 		if failed == 0:  # all tests passed
 			print(colors.green + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
-		elif ratio < 0.5:  # less than 50% of the tests passed
+		elif ratio >= 0.33:  # less than 1/3 of the tests passed
 			print(colors.red + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
-		else:  # more than 50% of the tests passed
+		else:
 			print(colors.yellow + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
 
 	def record_exception(self, e, test, event, options, driver):
@@ -45,11 +45,13 @@ class Result:
 			'url': test.url,
 			'driver': driver.name,
 			'event': event,
-			'exception': repr(e)
+			'exception': repr(e),
+			'assertions': [{'pass': False}]
 		}
 		if '-v' in options:
 			print(colors.red + str(exception) + colors.white)
 		self.exceptions.append(exception)
+		self.results.append(exception)
 
 	def append(self, result):
 		self.results.append(result)

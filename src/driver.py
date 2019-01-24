@@ -8,16 +8,25 @@ def get_driver(name, options=[]):
 	"""
 	if name == 'chrome':
 		o = webdriver.ChromeOptions()
-		o.headless = '-h' not in options
-		return webdriver.Chrome(options=o)
 	elif name == 'firefox':
 		o = webdriver.FirefoxOptions()
-		o.headless = '-h' not in options
-		return webdriver.Firefox(options=o)
 	elif name == 'ie':
 		o = webdriver.IeOptions()
-		o.headless = '-h' not in options
-		return webdriver.Ie(options=o)
 	elif name == 'edge':
 		return webdriver.Edge()
-	return False
+	else:
+		o = webdriver.ChromeOptions()
+
+	o.headless = '-h' not in options
+	if name == 'chrome':
+		driver = webdriver.Chrome(options=o)
+	elif name == 'firefox':
+		driver = webdriver.Firefox(options=o)
+	elif name == 'ie':
+		driver = webdriver.Ie(options=o)
+	else:
+		driver = webdriver.Chrome(options=o)
+
+	driver.set_window_size(1920, 1080)
+
+	return driver
