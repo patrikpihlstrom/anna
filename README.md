@@ -1,4 +1,4 @@
-# mage-bot
+# anna
 **website testing software using selenium**
 ## Configuration definition
 Configuration values for drivers and database credentials **(TODO)** are defined in ```config.json``` and should conform to the following format:
