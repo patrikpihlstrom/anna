@@ -8,7 +8,7 @@ import result
 import colors
 
 
-class Magebot:
+class Anna:
 	def __init__(self, config):
 		self.config = None
 		self.driver = None
