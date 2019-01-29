@@ -16,11 +16,11 @@ Consider the following file structure:
 anna/
     tests/
     	anna/
-			example.json
-			base/
-				do_thing.json
-			example/
-				go_to_page.json
+		example.json
+		base/
+			do_thing.json
+		example/
+			go_to_page.json
 ```
 
 Example website configuration (```tests/anna/example.json```):
