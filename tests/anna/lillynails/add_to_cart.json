@@ -2,33 +2,23 @@
   "events": [
 	{
 	  "type": "click",
-	  "target": {
-		"id": "search"
-	  }
+	  "target": "#search"
 	},
 	{
 	  "type": "send_keys",
-	  "target": {
-		"id": "search"
-	  },
+	  "target": "#search",
 	  "value": "Gel Polish"
 	},
 	{
 	  "type": "submit",
-	  "target": {
-		"id": "search"
-	  }
+	  "target": "#search"
 	},
 	{
 	  "type": "click",
-	  "target": {
-		"class": "tocart"
-	  }
+	  "target": ".tocart"
 	}
   ],
   "expected_result": {
-	"element_exists": {
-	  "class": "message-success"
-	}
+	"element_exists": ".message-success"
   }
 }

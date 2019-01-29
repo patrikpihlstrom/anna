@@ -1,12 +1,14 @@
 #!/usr/bin/python
 
+import sys
 import time
+import traceback
 
+import colors
 import config
 import driver
 import events
 import result
-import colors
 
 
 class Anna:
@@ -43,6 +45,7 @@ class Anna:
 			self.result.append(result)
 		except Exception as e:  # log any and all exceptions that occur during tests
 			self.result.record_exception(e, test, event, self.options, self.driver)
+			traceback.print_exc(file=sys.stdout)
 			pass
 
 	def run(self):

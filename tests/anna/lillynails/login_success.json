@@ -2,35 +2,25 @@
   "events": [
 	{
       "type": "click",
-      "target": {
-        "class": "authorization-link"
-      }
+      "target": ".authorization-link"
     },
     {
       "type": "click",
-      "target": {
-		"href": "https://stage.lillynails.se.caupo.se/customer/account/login"
-      }
+	  "target": "a[href^='https://stage.lillynails.se.caupo.se/customer/account/login']"
     },
 	{
 	  "type": "send_keys",
-	  "target": {
-		"id": "email"
-	  },
+	  "target": "#email",
 	  "value": "patrik.pihlstrom@caupo.se"
 	},
 	{
 	  "type": "send_keys",
-	  "target": {
-		"id": "pass"
-	  },
+	  "target": "#pass",
 	  "value": "test1234!"
 	},
 	{
 	  "type": "submit",
-	  "target": {
-		"id": "pass"
-	  }
+	  "target": "#pass"
 	}
   ],
   "expected_result": {

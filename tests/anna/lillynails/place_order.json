@@ -2,53 +2,37 @@
   "events": [
     {
       "type": "hover",
-      "target": {
-        "id": "minicart"
-      }
+      "target": "#minicart"
     },
     {
       "type": "click",
-      "target": {
-        "id": "top-cart-btn-checkout"
-      }
+      "target": "#top-cart-btn-checkout"
     },
     {
       "type": "switch_to",
-      "target": {
-        "class": "collector-checkout-iframe"
-      }
+      "target": ".collector-checkout-iframe"
     },
     {
       "type": "send_keys",
-      "target": {
-        "id": "customer-identify--input-email"
-      },
+      "target": "#customer-identify--input-email",
       "value": "patrik.pihlstrom@caupo.se"
     },
     {
       "type": "send_keys",
-      "target": {
-        "id": "customer-identify--input-phone"
-      },
+      "target": "#customer-identify--input-phone",
       "value": "0123456789"
     },
     {
       "type": "click",
-      "target": {
-        "id": "customer-identify--button-submit"
-      }
+      "target": "#customer-identify--button-submit"
     },
     {
       "type": "click",
-      "target": {
-        "id": "purchase-method-select--button-direct-invoice"
-      }
+      "target": "#purchase-method-select--button-direct-invoice"
     },
     {
       "type": "click",
-      "target": {
-        "id": "purchase-perform-direct-invoice--button-submit"
-      }
+      "target": "#purchase-perform-direct-invoice--button-submit"
     },
     {
       "type": "sleep",

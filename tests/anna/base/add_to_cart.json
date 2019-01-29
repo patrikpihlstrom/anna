@@ -1,28 +1,24 @@
 {
   "events": [
 	{
+	  "type": "click",
+	  "target": "#search"
+	},
+	{
 	  "type": "send_keys",
-	  "target": {
-		"class": "input-text"
-	  },
+	  "target": "#search",
 	  "value": "Cassia Funnel Sweatshirt"
 	},
 	{
 	  "type": "submit",
-	  "target": {
-		"class": "input-text"
-	  }
+	  "target": "#search"
 	},
 	{
 	  "type": "click",
-	  "target": {
-		"class": "tocart"
-	  }
+	  "target": ".tocart"
 	}
   ],
   "expected_result": {
-	"element_exists": {
-	  "class": "message-success"
-	}
+	"element_exists": ".message-success"
   }
 }
