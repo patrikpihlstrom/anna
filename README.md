@@ -1,32 +1,29 @@
 # anna
 **website testing software using selenium**
 ## Configuration definition
-Configuration values for drivers and database credentials **(TODO)** are defined in ```config.json``` and should conform to the following format:
+Configuration values for drivers and database credentials **(TODO)** are defined in ```config.py``` and should conform to the following format:
 ```
-{
-  "drivers": [
-    "firefox",
-    "chrome"
-  ]
-}
+drivers = ['firefox', 'chrome']
+database = {'engine': 'mysql', 'host': 'localhost', 'user': 'root', 'password': 'root', 'database': 'anna'}
 ```
 ## Test definitions
 Tests are defined in the ```tests/``` directory. Each website should have
-a json file as well as a subdirectory under ```tests/``` containing test definitions.
+a json file as well as a subdirectory under ```tests/anna/``` containing test definitions.
 If a test is referenced, but not defined for a particular website,
-mage-bot will use the ```base``` directory as a fallback.
+anna will use the ```base``` directory as a fallback.
 Consider the following file structure:
 ```
-mage-bot/
+anna/
     tests/
-        example.json
-        base/
-            do_thing.json
-        example/
-            go_to_page.json
+    	anna/
+			example.json
+			base/
+				do_thing.json
+			example/
+				go_to_page.json
 ```
 
-Example website configuration (```tests/example.json```):
+Example website configuration (```tests/anna/example.json```):
 ```
 {
   "url": "https://example.com",
@@ -36,7 +33,7 @@ Example website configuration (```tests/example.json```):
   }
 }
 ```
-Example test definition (```tests/example/go_to_page.json```):
+Example test definition (```tests/anna/example/go_to_page.json```):
 ```
 {
   "events": [

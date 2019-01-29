@@ -6,3 +6,5 @@ tests.json
 .idea
 core
 *.pyc
+venv
+*.egg-info

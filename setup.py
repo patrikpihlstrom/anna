@@ -4,7 +4,7 @@ with open('README.md', 'r') as f:
     description = f.read()
 
 setuptools.setup(
-    name='magebot',
+    name='anna',
     version='0.1.2',
     author='Patrik Pihlstrom',
     author_email='patrik.pihlstrom@gmail.com',

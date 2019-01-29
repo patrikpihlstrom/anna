@@ -2,6 +2,7 @@
 
 import time
 
+import config
 import driver
 import events
 import result
@@ -9,13 +10,11 @@ import colors
 
 
 class Anna:
-	def __init__(self, config):
-		self.config = None
+	def __init__(self):
 		self.driver = None
 		self.tests = {}
 		self.exceptions = []
 		self.options = []
-		self.config = config
 		self.result = result.Result()
 
 	def close(self):
@@ -52,13 +51,14 @@ class Anna:
 		:return:
 		"""
 		for site in self.tests.keys():
-			for driver_name in self.config['drivers']:
+			for driver_name in config.drivers:
 				self.driver = driver.get_driver(driver_name, self.options)
 				self.driver.get(site)
 				for test in self.tests[site]:
 					self.run_test(test)
 				self.close()
 		self.result.print_results(self.options)
+		return self.result
 
 	def set_tests(self, tests):
 		self.tests = tests

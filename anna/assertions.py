@@ -1,4 +1,4 @@
-from util import get_element
+import util
 
 
 def current_url(driver, url):
@@ -9,4 +9,4 @@ def current_url(driver, url):
 
 
 def element_exists(driver, target):
-	return {'key': 'element_exists', 'pass': get_element(driver, target) not in [None, False, []]}
+	return {'key': 'element_exists', 'pass': util.get_element(driver, target) not in [None, False, []]}

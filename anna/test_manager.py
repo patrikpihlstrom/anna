@@ -10,11 +10,12 @@ def get_tests(sites=None):
 	continues to parse the test definitions in each of the files' corresponding sub-directory via the get_test function
 	"""
 	tests = {}
-	files = [file for file in os.listdir('../tests/') if file.endswith('.json')]
+	path = os.path.dirname(__file__) + '/../tests/anna/'
+	files = [file for file in os.listdir(path) if file.endswith('.json')]
 	for file in files:
 		name = os.path.splitext(file)[0]
 		if not sites or name in sites:
-			with open('../tests/' + file) as site_tests:
+			with open(path + file) as site_tests:
 				site_tests = json.load(site_tests)
 				tests[site_tests['url']] = []
 				sequence = site_tests['sequence']
@@ -28,11 +29,12 @@ def get_test(site_name, test_name, test_url):
 	Parses site-specific test definitions
 	"""
 	file = None
+	path = os.path.dirname(__file__) + '/../tests/anna/'
 	# check if the file exists in the site scope
-	if os.path.isfile('../tests/' + site_name + '/' + test_name + '.json'):
-		file = '../tests/' + site_name + '/' + test_name + '.json'
-	elif os.path.isfile('../tests/base/' + test_name + '.json'):  # fallback
-		file = '../tests/base/' + test_name + '.json'
+	if os.path.isfile(path + site_name + '/' + test_name + '.json'):
+		file = path + site_name + '/' + test_name + '.json'
+	elif os.path.isfile(path + test_name + '.json'):  # fallback
+		file = path + 'base/' + test_name + '.json'
 	with open(file) as file:
 		test = json.load(file)
 		return Test(test_name, test['events'], test['expected_result'], test_url)
