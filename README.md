@@ -39,9 +39,7 @@ Example test definition (```tests/anna/example/go_to_page.json```):
   "events": [
     {
       "type": "click",
-      "target": {
-        "class": "target-class"
-      }
+      "target": ".target-class"
     },
     ...
   ],
@@ -52,20 +50,15 @@ Example test definition (```tests/anna/example/go_to_page.json```):
 ```
 
 ### Currently implemented event types
-* click ```{"type": "click", "target": {"id": "unique_element}```
-* sendkeys ```{"type": "sendkeys", "target": {"id": "unique_element}```
-* submit ```{"type": "submit", "target": {"id": "unique_element}```
-* hover ```{"type": "hover", "target": {"id": "unique_element}```
-* wait ```{"type": "wait", "target": {"id": "unique_element}```
-
-### Currently implemented target selectors
-* id ```{"target": {"id": "unique_element"}}```
-* class ```{"target": {"class": "some-class"}}```
-* href ```{"target": {"href": "https://example.com/somepage"}}```
+* click ```{"type": "click", "target": "#unique_element}```
+* sendkeys ```{"type": "sendkeys", "target": "#unique_element}```
+* submit ```{"type": "submit", "target": "#unique_element}```
+* hover ```{"type": "hover", "target": "#unique_element}```
+* wait ```{"type": "wait", "target": "#unique_element}```
 
 ### Currently implemented assertion types
 * current_url ```{"current_url": "https://example.com/somepage"}```
-* element_exists ```{"element_exists": {"class": "some-class"}}```
+* element_exists ```{"element_exists": ".some-class"}```
 
 #### TODO
 * Change test assertion definition structure
