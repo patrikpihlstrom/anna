@@ -1,5 +1,5 @@
 # anna
-**website testing software using selenium**
+**End-to-end website testing software using selenium**
 ## Configuration definition
 Configuration values for drivers and database credentials **(TODO)** are defined in ```config.py``` and should conform to the following format:
 ```
