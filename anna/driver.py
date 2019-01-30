@@ -1,11 +1,17 @@
 from selenium import webdriver
 
 
-def get_driver(name, options=[]):
+def get_driver(options=[]):
 	"""
-	Returns a new webdriver by the requested name
+	Returns a webdriver based on the -d arg
 	pass -h to run in headless mode
 	"""
+	i = options.index('-d')
+	if len(options) > i+1:
+		name = str(options[i+1]).lstrip('-s')
+	else:
+		raise TypeError('required argument "-d" missing')
+
 	if name == 'chrome':
 		o = webdriver.ChromeOptions()
 	elif name == 'firefox':

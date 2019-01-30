@@ -5,7 +5,6 @@ import time
 import traceback
 
 import colors
-import config
 import driver
 import events
 import result
@@ -54,12 +53,11 @@ class Anna:
 		:return:
 		"""
 		for site in self.tests.keys():
-			for driver_name in config.drivers:
-				self.driver = driver.get_driver(driver_name, self.options)
-				self.driver.get(site)
-				for test in self.tests[site]:
-					self.run_test(test)
-				self.close()
+			self.driver = driver.get_driver(self.options)
+			self.driver.get(site)
+			for test in self.tests[site]:
+				self.run_test(test)
+			self.close()
 		self.result.print_results(self.options)
 		return self.result
 
