@@ -9,7 +9,7 @@ class Test:
         self.url = url
 
     def assert_result(self, driver):
-        result = {'name': self.name, 'url': self.url, 'driver': driver.name, 'assertions': []}
+        result = {'test': self.name, 'url': self.url, 'driver': driver.name, 'assertions': []}
         for key, val in self.expected_result.items():
             func = getattr(assertions, key)
             result['assertions'].append(func(driver, val))

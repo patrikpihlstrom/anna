@@ -9,10 +9,11 @@ setuptools.setup(
     author='Patrik Pihlstrom',
     author_email='patrik.pihlstrom@gmail.com',
     url='https://github.com/patrikpihlstrom/anna',
-    description='simulated & automated website testing software',
+    description='simulated & automated end-to-end website testing software',
     long_description=description,
     long_description_content_type='text/markdown',
-    packages=setuptools.find_packages(),
+    packages=['anna'],
+    entry_points={'anna': ['anna = anna.__main__:main']},
     install_requires=[
         'selenium'
     ]

@@ -30,6 +30,17 @@ class TestEvents(unittest.TestCase):
                 e = util.get_element(d, actions['send_keys']['target'])
                 self.assertEqual(e.get_attribute('value'), actions['send_keys']['value'])
 
+    def test_submit(self):
+        for d in config.drivers:
+            d = driver.get_driver(d, [])
+            for site, actions in self.actions.items():
+                d.get(site)
+                e = util.get_element(d, actions['send_keys']['target'])
+                self.assertEqual(e.get_attribute('value'), '')
+                events.send_keys(d, actions['send_keys'])
+                e = util.get_element(d, actions['send_keys']['target'])
+                self.assertEqual(e.get_attribute('value'), actions['send_keys']['value'])
+
 
 if __name__ == '__main__':
     unittest.main()
