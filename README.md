@@ -6,7 +6,7 @@ I've made docker containers for [firefox](https://github.com/patrikpihlstrom/doc
 
 Run ```anna```
 
-| arg | desciprtion             |possible values|
+| arg | description             |possible values|
 |-----|-------------------------|---------------|
 | -v  | verbose mode            |*N/A*|
 | -h  | run in non-headless mode|*N/A*|
