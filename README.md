@@ -6,12 +6,14 @@ I've made docker containers for [firefox](https://github.com/patrikpihlstrom/doc
 
 Run ```anna```
 
-| arg | description             |possible values|
+| arg | description             |required|
 |-----|-------------------------|---------------|
-| -v  | verbose mode            |*N/A*|
-| -h  | run in non-headless mode|*N/A*|
-| -d  | specify the driver      |chrome or firefox|
-| -s  | specify the site        |any site specified in tests/anna/*.json|
+| -d  | specify the drivers (seperate by space)|yes|
+| -s  | specify the sites (seperate by space)|yes|
+| -h  | display help|no|
+| -v  | verbose mode|no|
+| -H  | run in headless mode|no|
+| -r  | specify the resolution of the drivers (defaults to 1920x1080)|no|
 
 ### Test definitions
 Test cases are defined in the ```tests/anna/``` directory. Each website should have
