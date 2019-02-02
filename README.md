@@ -1,13 +1,20 @@
 # anna
 **End-to-end website testing software using selenium**
-## Configuration definition
-Configuration values for drivers and database credentials **(TODO)** are defined in ```config.py``` and should conform to the following format:
-```
-drivers = ['firefox', 'chrome']
-database = {'engine': 'mysql', 'host': 'localhost', 'user': 'root', 'password': 'root', 'database': 'anna'}
-```
-## Test definitions
-Tests are defined in the ```tests/``` directory. Each website should have
+
+### Usage
+I've made docker containers for [firefox](https://github.com/patrikpihlstrom/docker-anna-firefox) & [chrome](https://github.com/patrikpihlstrom/docker-anna-chrome).
+
+Run ```anna```
+
+| arg | description             |possible values|
+|-----|-------------------------|---------------|
+| -v  | verbose mode            |*N/A*|
+| -h  | run in non-headless mode|*N/A*|
+| -d  | specify the driver      |chrome or firefox|
+| -s  | specify the site        |any site specified in tests/anna/*.json|
+
+### Test definitions
+Test cases are defined in the ```tests/anna/``` directory. Each website should have
 a json file as well as a subdirectory under ```tests/anna/``` containing test definitions.
 If a test is referenced, but not defined for a particular website,
 anna will use the ```base``` directory as a fallback.
