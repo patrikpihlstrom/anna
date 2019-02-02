@@ -1,16 +1,11 @@
 from selenium import webdriver
 
 
-def get_driver(options=[]):
+def get_driver(name, options=[]):
 	"""
 	Returns a webdriver based on the -d arg
 	pass -h to run in headless mode
 	"""
-	i = options.index('-d')
-	if len(options) > i+1:
-		name = str(options[i+1]).lstrip('-s')
-	else:
-		raise TypeError('required argument "-d" missing')
 
 	if name == 'chrome':
 		o = webdriver.ChromeOptions()
@@ -22,8 +17,8 @@ def get_driver(options=[]):
 		return webdriver.Edge()
 	else:
 		o = webdriver.ChromeOptions()
+	o.headless = options['headless']
 
-	o.headless = '-h' not in options
 	if name == 'chrome':
 		driver = webdriver.Chrome(options=o)
 	elif name == 'firefox':
@@ -31,8 +26,9 @@ def get_driver(options=[]):
 	elif name == 'ie':
 		driver = webdriver.Ie(options=o)
 	else:
-		driver = webdriver.Chrome(options=o)
+		driver = webdriver.Chrome(options)
 
-	driver.set_window_size(1920, 1080)
+	resolution = str(options['resolution']).split('x') if options['resolution'] is not None else (1920, 1080)
+	driver.set_window_size(resolution[0], resolution[1])
 
 	return driver

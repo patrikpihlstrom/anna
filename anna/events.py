@@ -49,27 +49,10 @@ def wait(driver, event):
 	:param event:
 	:return:
 	"""
-	if 'id' in event['target']:
-		if event['type'] == 'click':
-			WebDriverWait(driver, 16).until(ec.element_to_be_clickable((By.ID, event['target']['id'])))
-		else:
-			WebDriverWait(driver, 16).until(ec.presence_of_element_located((By.ID, event['target']['id'])))
-		return True
-	if 'class' in event['target']:
-		if event['type'] == 'click':
-			WebDriverWait(driver, 16).until(ec.element_to_be_clickable((By.CLASS_NAME, event['target']['class'])))
-		else:
-			WebDriverWait(driver, 16).until(ec.presence_of_element_located((By.CLASS_NAME, event['target']['class'])))
-		return True
-	if 'href' in event['target']: # selenium.webdriver.common.by doesn't support href selection
-		slept = 0
-		while slept < 16:
-			element = get_element(driver, event['target'])
-			if element is not None:
-				break
-			time.sleep(1)
-			slept += 1
-		return True
+	if event['type'] == 'click':
+		WebDriverWait(driver, 16).until(ec.element_to_be_clickable((By.CSS_SELECTOR, event['target'])))
+	else:
+		WebDriverWait(driver, 16).until(ec.presence_of_element_located((By.CSS_SELECTOR, event['target'])))
 
 	return False
 
