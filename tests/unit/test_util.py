@@ -1,6 +1,6 @@
 import unittest
 
-import config
+from . import options
 
 from anna import driver, util
 from selenium.common.exceptions import NoSuchElementException
@@ -9,21 +9,16 @@ from selenium.common.exceptions import NoSuchElementException
 class TestUtil(unittest.TestCase):
     def setUp(self):
         self.targets = {
-            'https://stage.lillynails.se.caupo.se/': {
-                '#search': True,
+            'http://127.0.0.1:8000/demo/': {
+                '#send_keys': True,
                 '#nonsense': False,
-                'a[href^="https://stage.lillynails.eu.caupo.se/"]': True
+                '.btn-primary': True
             },
-            'https://google.com/': {
-                '#searchform': True,
-                '#bing': False,
-                'form[action="/search"]': True
-            }
         }
 
     def test_get_element(self):
-        for d in config.drivers:
-            d = driver.get_driver(d, [])
+        for d in options.options['drivers']:
+            d = driver.get_driver(d, options.options)
             for site, targets in self.targets.items():
                 d.get(site)
                 for target, expected_result in targets.items():
@@ -31,7 +26,8 @@ class TestUtil(unittest.TestCase):
                         self.assertTrue(util.get_element(d, target) not in (False, None, []))
                     else:
                         with self.assertRaises(NoSuchElementException):
-                            util.get_element(d, target) not in (False, None, [])
+                            util.get_element(d, target)
+            d.close()
 
 
 if __name__ == '__main__':

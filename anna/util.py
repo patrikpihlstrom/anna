@@ -3,7 +3,11 @@ import time
 
 def get_element(driver, target, return_list=False, timeout=16):
     time.sleep(1)
-    element = driver.find_element_by_css_selector(target)
+    try:
+        element = driver.find_element_by_css_selector(target)
+    except:
+        element = None
+
     # default behavior is to return the first element that matches
     if type(element) is list:
         if len(element) == 0:

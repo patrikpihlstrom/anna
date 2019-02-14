@@ -63,5 +63,9 @@ def sleep(driver, event):
 
 def switch_to(driver, event):
 	element = get_element(driver, event['target'])
-	driver.execute_script('arguments[0].scrollIntoView(true);', element)
+	scroll_to(driver, element)
 	driver.switch_to.frame(element)
+
+
+def scroll_to(driver, element):
+	driver.execute_script('arguments[0].scrollIntoView(true);', element)

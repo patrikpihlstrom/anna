@@ -14,10 +14,10 @@ class Result:
 		failed = 0
 		for result in self.results:
 			if any(not assertion['pass'] for assertion in result['assertions']):
-				if '-v' in options:
+				if options['verbose']:
 					print(colors.red + str(result) + colors.white)
 				failed += 1
-			elif '-v' in options:
+			elif options['verbose']:
 				print(colors.green + str(result) + colors.white)
 		if len(self.results) > 0:
 			ratio = float(failed) / float(len(self.results))
