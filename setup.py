@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='libanna',
-    version='1.0.4',
+    version='1.0.5',
     author='Patrik Pihlstrom',
     author_email='patrik.pihlstrom@gmail.com',
     url='https://github.com/patrikpihlstrom/anna',
