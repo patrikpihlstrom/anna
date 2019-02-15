@@ -22,7 +22,7 @@ def get_driver(name, options=[]):
 	if name == 'chrome':
 		driver = webdriver.Chrome(options=o)
 	elif name == 'firefox':
-		driver = webdriver.Firefox(executable_path='/opt/bin/geckodriver', options=o)
+		driver = webdriver.Firefox(options=o)
 	elif name == 'ie':
 		driver = webdriver.Ie(options=o)
 	else:
