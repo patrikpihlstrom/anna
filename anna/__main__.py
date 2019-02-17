@@ -2,8 +2,8 @@
 
 import argparse
 
-from . import anna
-from . import test_manager
+import anna
+import test_manager
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='End-to-end testing using selenium')
