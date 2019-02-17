@@ -24,11 +24,11 @@ class Result:
 		else:
 			ratio = 1
 		if failed == 0:  # all tests passed
-			print(colors.green + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
+			print(colors.green + '%d/%d tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
 		elif ratio >= 0.33:  # less than 1/3 of the tests passed
-			print(colors.red + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
+			print(colors.red + '%d/%d tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
 		else:
-			print(colors.yellow + '%x/%x tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
+			print(colors.yellow + '%d/%d tests passed' % (len(self.results) - failed, len(self.results)) + colors.white)
 
 	def record_exception(self, e, test, event, options, driver):
 		"""
@@ -46,11 +46,8 @@ class Result:
 			'driver': driver.name,
 			'event': event,
 			'exception': repr(e),
-			'screen_shot': '~/' + '_'.join((test.name, test.url)) + '.png',
 			'assertions': [{'pass': False}]
 		}
-		if 'id' in options and type('id') is int:
-			driver.save_screenshot(exception['screen_shot'])
 		if '-v' in options:
 			print(colors.red + str(exception) + colors.white)
 		self.exceptions.append(exception)

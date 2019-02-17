@@ -1,3 +1,7 @@
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as ec
+from selenium.webdriver.support.wait import WebDriverWait
+
 import util
 import time
 
@@ -20,3 +24,8 @@ def current_url(driver, url, timeout=16):
 
 def element_exists(driver, target):
 	return {'key': 'element_exists', 'pass': util.get_element(driver, target) not in [None, False, []]}
+
+
+def clickable(driver, target):
+	return {'key': 'clickable', 'pass': WebDriverWait(driver, 16).until(
+		ec.element_to_be_clickable((By.CSS_SELECTOR, target))) not in [None, False, []]}

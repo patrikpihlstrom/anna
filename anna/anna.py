@@ -7,6 +7,8 @@ import driver
 import events
 import result
 
+import selenium.common.exceptions
+
 
 class Anna:
 	def __init__(self, options):
@@ -29,16 +31,19 @@ class Anna:
 		event = None
 		try:
 			for event in test.events:
+				time.sleep(1)
 				func = getattr(events, event['type'])
 				func(self.driver, event)
-				time.sleep(1)
+			time.sleep(1)
 			result = test.assert_result(self.driver)
 			if not any(not assertion['pass'] for assertion in result['assertions']):
 				print(colors.green + 'passed' + colors.white)
 			else:
 				raise Exception
+			self.screenshot(test)
 			self.result.append(result)
 		except Exception as e:  # log any and all exceptions that occur during tests
+			self.screenshot(test)
 			print(colors.red + 'failed' + colors.white)
 			self.result.record_exception(e, test, event, self.options, self.driver)
 			if self.options['verbose']:
@@ -59,6 +64,19 @@ class Anna:
 				self.close()
 		self.result.print_results(self.options)
 		return self.result
+
+	def screenshot(self, test):
+		"""
+		Attempts to save a screenshot of the current driver
+		"""
+		if 'id' in self.options and type('id') is not None:
+			try:
+				path = '/tmp/' + '_'.join((str(self.options['id']), test.site, self.driver.name, test.name)) + '.png'
+				self.driver.save_screenshot(path)
+				return path
+			except selenium.common.exceptions.WebDriverException:
+				return False
+		return False
 
 	def set_tests(self, tests):
 		self.tests = tests

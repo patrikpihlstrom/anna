@@ -2,11 +2,12 @@ import assertions
 
 
 class Test:
-    def __init__(self, name, events, expected_result, url):
+    def __init__(self, name, events, expected_result, url, site):
         self.name = name
         self.events = events
         self.expected_result = expected_result
         self.url = url
+        self.site = site
 
     def assert_result(self, driver):
         result = {'test': self.name, 'url': self.url, 'driver': driver.name, 'assertions': []}

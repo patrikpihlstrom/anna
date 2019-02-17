@@ -3,6 +3,8 @@
   "sequence": {
     "0": "login_success",
 	"1": "add_to_cart",
-    "2": "place_order"
+    "2": "empty_cart",
+    "3": "add_to_cart",
+    "4": "place_order"
   }
 }

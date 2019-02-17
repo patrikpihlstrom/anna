@@ -33,8 +33,8 @@ def get_test(site_name, test_name, test_url):
 	# check if the file exists in the site scope
 	if os.path.isfile(path + site_name + '/' + test_name + '.json'):
 		file = path + site_name + '/' + test_name + '.json'
-	elif os.path.isfile(path + test_name + '.json'):  # fallback
+	elif os.path.isfile(path + 'base/' + test_name + '.json'):  # fallback
 		file = path + 'base/' + test_name + '.json'
 	with open(file) as file:
 		test = json.load(file)
-		return Test(test_name, test['events'], test['expected_result'], test_url)
+		return Test(test_name, test['events'], test['expected_result'], test_url, site_name)
