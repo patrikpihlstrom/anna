@@ -2,7 +2,8 @@
 **End-to-end website testing software using selenium**
 
 ### Usage
-I've made docker containers for [firefox](https://github.com/patrikpihlstrom/docker-anna-firefox) & [chrome](https://github.com/patrikpihlstrom/docker-anna-chrome).
+I've made docker containers for [firefox](https://github.com/patrikpihlstrom/docker-anna-firefox) & [chrome](https://github.com/patrikpihlstrom/docker-anna-chrome),
+as well as a [RESTful API](https://github.com/patrikpihlstrom/anna-api).
 
 Run ```anna```
 
@@ -14,6 +15,7 @@ Run ```anna```
 | -v  | verbose mode|no|
 | -H  | run in headless mode|no|
 | -r  | specify the resolution of the drivers (defaults to 1920x1080)|no|
+| -i  | set the id (used by [anna-api](https://github.com/patrikpihlstrom/anna-api))|no|
 
 ### Test definitions
 Test cases are defined in the ```tests/anna/``` directory. Each website should have
@@ -70,7 +72,7 @@ Example test definition (```tests/anna/example/go_to_page.json```):
 * element_exists ```{"element_exists": ".some-class"}```
 
 #### TODO
-* Change test assertion definition structure
-* Implement built-in wait in assertions
-* Implement database assertions
-* Implement subroutine processing
+* credentials-pool using -i from anna-api
+* change test assertion definition structure
+* database assertions
+* subroutine processing

@@ -46,8 +46,11 @@ class Result:
 			'driver': driver.name,
 			'event': event,
 			'exception': repr(e),
+			'screen_shot': '~/' + '_'.join((test.name, test.url)) + '.png',
 			'assertions': [{'pass': False}]
 		}
+		if 'id' in options and type('id') is int:
+			driver.save_screenshot(exception['screen_shot'])
 		if '-v' in options:
 			print(colors.red + str(exception) + colors.white)
 		self.exceptions.append(exception)
