@@ -9,8 +9,8 @@ Run ```anna```
 
 | arg | description             |required|
 |-----|-------------------------|---------------|
-| -d  | specify the drivers (seperate by space)|yes|
-| -s  | specify the sites (seperate by space)|yes|
+| -d  | specify the driver|yes|
+| -s  | specify the site|yes|
 | -h  | display help|no|
 | -v  | verbose mode|no|
 | -H  | run in headless mode|no|
@@ -25,7 +25,7 @@ anna will use the ```base``` directory as a fallback.
 Consider the following file structure:
 ```
 anna/
-    tests/
+    tasks/
     	anna/
 		example.json
 		base/
@@ -54,9 +54,13 @@ Example test definition (```tests/anna/example/go_to_page.json```):
     },
     ...
   ],
-  "expected_result": {
-    "current_url": "https://example.com/page/"
-  }
+  "assertions": [
+    {
+      "type": "current_url",
+      "is": "https://example.com/page/"
+    },
+    ...
+  ]
 }
 ```
 
@@ -65,14 +69,14 @@ Example test definition (```tests/anna/example/go_to_page.json```):
 * sendkeys ```{"type": "sendkeys", "target": "#unique_element}```
 * submit ```{"type": "submit", "target": "#unique_element}```
 * hover ```{"type": "hover", "target": "#unique_element}```
-* wait ```{"type": "wait", "target": "#unique_element}```
+* wait ```{"type": "wait", "target": "#unique_element}``` Waits for a target element to become visible
+* switch_to ```{"type": "switch_to", "target": "#unique_element}``` Changes the focus to an iframe
 
 ### Currently implemented assertion types
-* current_url ```{"current_url": "https://example.com/somepage"}```
-* element_exists ```{"element_exists": ".some-class"}```
+* current_url ```{"in": "somepage"}``` or ```{"is": "https://example.com/somepage"}```
+* element_exists ```{"target": ".some-class"}```
 
 #### TODO
 * credentials-pool using -i from anna-api
-* change test assertion definition structure
 * database assertions
 * subroutine processing
