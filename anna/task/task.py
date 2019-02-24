@@ -4,9 +4,9 @@ import traceback
 import time
 from selenium.common.exceptions import WebDriverException
 
-import colors
-from anna.driver import assertions
-from anna.driver import events
+from anna import colors
+from driver import assertions
+from driver import events
 
 
 class Task:
