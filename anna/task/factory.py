@@ -1,7 +1,7 @@
 import os
 import json
 
-from . import task
+from .task import Task
 
 
 def get_url(site):
@@ -55,4 +55,4 @@ def create(name, site, url):
 
 	with open(file) as file:
 		task = json.load(file)
-		return task.Task(name, task['events'], task['assertions'], url, site)
+		return Task(name, task['events'], task['assertions'], url, site)
