@@ -1,0 +1,18 @@
+{
+  "url": "http://annahub.se:8000/test/",
+  "sequence": {
+    "0": "send_keys",
+	"1": "submit",
+	"2": "click",
+	"3": "hover",
+	"4": "wait",
+	"5": "switch_to",
+	"6": "iframe/send_keys",
+	"7": "iframe/submit",
+	"8": "iframe/click",
+	"9": "iframe/hover",
+	"10": "iframe/wait",
+	"11": "iframe/switch_to",
+	"12": "fail"
+  }
+}
