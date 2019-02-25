@@ -21,7 +21,7 @@ def create(options):
 	if options['driver'] == 'chrome':
 		driver = webdriver.Chrome(options=o)
 	elif options['driver'] == 'firefox':
-		driver = webdriver.Firefox(options=o)
+		driver = webdriver.Firefox(options=o, log_path='/tmp/geckodriver.log')
 	elif options['driver'] == 'ie':
 		driver = webdriver.Ie(options=o)
 	elif options['driver'] == 'edge':

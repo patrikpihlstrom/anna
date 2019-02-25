@@ -50,3 +50,7 @@ class Task:
 				func = getattr(events, event['type'])
 				func(current_driver, event)
 				time.sleep(1)
+
+	def dict(self):
+		return {'name': self.name, 'events': self.events, 'assertions': self.assertions, 'url': self.url,
+		        'site': self.site, 'result': self.result, 'exceptions': self.exceptions}

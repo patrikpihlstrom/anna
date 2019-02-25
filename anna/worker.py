@@ -1,5 +1,6 @@
 import sys
 import traceback
+from pprint import pprint
 
 import colors
 from driver import factory, events, assertions
@@ -33,6 +34,7 @@ class Worker:
 			return False
 		except:  # log any and all exceptions that occur during tasks
 			task.passed = False
+			task.result = traceback.format_exc()
 			assert len(task.event) > 0
 			if self.options['verbose']:
 				traceback.print_exc(file=sys.stdout)
@@ -44,9 +46,16 @@ class Worker:
 
 	def print_result(self):
 		if self.options['verbose']:
-			self.print_event_summary()
+			self.print_task_summary()
 		passed = len([task for task in self.tasks if task.passed])
 		print(str(passed) + '/' + str(len(self.tasks)))
 
-	def print_event_summary(self):
-		pass
+	def print_task_summary(self):
+		for task in self.tasks:
+			if task.passed:
+				print(colors.green)
+				pprint(task.dict())
+			else:
+				print(colors.red)
+				pprint(task.dict())
+			print(colors.white)
