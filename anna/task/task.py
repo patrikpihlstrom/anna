@@ -1,12 +1,5 @@
-import sys
-import traceback
-
 import time
 from selenium.common.exceptions import WebDriverException
-
-from anna import colors
-from anna.driver import assertions
-from anna.driver import events
 
 
 class Task:
@@ -14,6 +7,7 @@ class Task:
 	A task is a set of events that should execute in sequence. Once each event has been executed, the task will assert
 	that the expected result was achieved. For instance, add_to_cart or place_order
 	"""
+	event: dict  # The event currently being executed
 
 	def __init__(self, name, events, assertions, url, site):
 		self.name = name
@@ -25,7 +19,7 @@ class Task:
 		self.passed = False
 		self.exceptions = []
 
-	def check(self, current_driver):
+	def check(self, current_driver, assertions):
 		result = {'test': self.name, 'url': self.url, 'driver': current_driver.name, 'assertions': []}
 		for assertion in self.assertions:
 			if hasattr(assertions, assertion['type']):
@@ -35,22 +29,11 @@ class Task:
 		self.passed = not any(not assertion['pass'] for assertion in self.result['assertions'])
 		return self.passed
 
-	def record_exception(self, exception, event, options, current_driver):
-		exception = {
-			'driver': current_driver.name,
-			'event': event,
-			'exception': repr(exception),
-			'assertions': [{'pass': False}]
-		}
-		if '-v' in options:
-			print(colors.red + str(exception) + colors.white)
-		self.exceptions.append(exception)
-
 	def screenshot(self, options, current_driver):
 		"""
 		Attempts to save a screenshot of the current driver
 		"""
-		if 'id' in options and type('id') is not None:
+		if 'id' in options and type('id') in (int, str):
 			try:
 				path = '/tmp/' + '_'.join((str(options['id']), self.site, current_driver.name, self.name)) + '.png'
 				current_driver.save_screenshot(path)
@@ -59,26 +42,11 @@ class Task:
 				return False
 		return False
 
-	def execute_events(self, current_driver):
+	def execute_events(self, current_driver, events):
 		for event in self.events:
+			self.event = event
 			time.sleep(1)
 			if hasattr(events, event['type']):
 				func = getattr(events, event['type'])
 				func(current_driver, event)
 				time.sleep(1)
-
-	def run(self, current_driver, options={}):
-		print('Running %s @ %s on %s' % (self.name, self.url, current_driver.name))
-		event = None
-		try:
-			self.execute_events(current_driver)
-			self.check(current_driver)
-		except Exception as e:  # log any and all exceptions that occur during tasks
-			self.passed = False
-			self.record_exception(e, event, options, current_driver)
-			if options['verbose']:
-				traceback.print_exc(file=sys.stdout)
-		if self.passed:
-			print(colors.green + 'passed' + colors.white)
-		else:
-			print(colors.red + 'failed' + colors.white)

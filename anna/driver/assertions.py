@@ -1,4 +1,3 @@
-from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as ec
 from selenium.webdriver.support.wait import WebDriverWait
@@ -36,9 +35,6 @@ def element_exists(driver, assertion, timeout=16):
 
 
 def clickable(driver, assertion, timeout=16):
-	try:
-		passed = WebDriverWait(driver, timeout).until(
-			ec.element_to_be_clickable((By.CSS_SELECTOR, assertion['target']))) not in [None, False, []]
-	except TimeoutException:
-		passed = False
+	passed = WebDriverWait(driver, timeout).until(
+		ec.element_to_be_clickable((By.CSS_SELECTOR, assertion['target']))) not in [None, False, []]
 	return {'key': 'clickable', 'pass': passed}

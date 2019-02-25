@@ -10,27 +10,16 @@ def get_element(driver, target, get_first=True, timeout=16):
 	:param timeout:
 	:return:
 	"""
-	time.sleep(1)
-	if get_first:
-		try:
-			element = driver.find_element_by_css_selector(target)
-		except:
-			element = None
-		if element is None:
-			if timeout <= 0:
-				return False
-			return get_element(driver, target, get_first, timeout - 1)
-		return element
-	else:
-		try:
-			element = driver.find_elements_by_css_selector(target)
-		except:
-			element = []
-		if not element:
-			if timeout <= 0:
-				return []
-			return get_element(driver, target, get_first, timeout - 1)
-		return element
+	try:
+		if get_first:
+			return driver.find_element_by_css_selector(target)
+		else:
+			return driver.find_elements_by_css_selector(target)
+	except TimeoutError as e:
+		if timeout <= 0:
+			raise TimeoutError(e)
+		time.sleep(1)
+		return get_element(driver, target, get_first, timeout - 1)
 
 
 def get_text(driver, target):

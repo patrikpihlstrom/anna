@@ -54,8 +54,6 @@ def wait(driver, event):
 	else:
 		WebDriverWait(driver, 16).until(ec.presence_of_element_located((By.CSS_SELECTOR, event['target'])))
 
-	return False
-
 
 def sleep(driver, event):
 	time.sleep(event['value'])
