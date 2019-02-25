@@ -1,4 +1,5 @@
 import time
+from selenium.common.exceptions import NoSuchElementException
 
 
 def get_element(driver, target, get_first=True, timeout=16):
@@ -15,9 +16,9 @@ def get_element(driver, target, get_first=True, timeout=16):
 			return driver.find_element_by_css_selector(target)
 		else:
 			return driver.find_elements_by_css_selector(target)
-	except TimeoutError as e:
+	except (TimeoutError, NoSuchElementException) as e:
 		if timeout <= 0:
-			raise TimeoutError(e)
+			raise e
 		time.sleep(1)
 		return get_element(driver, target, get_first, timeout - 1)
 

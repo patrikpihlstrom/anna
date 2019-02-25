@@ -5,16 +5,13 @@
 	"1": "submit",
 	"2": "click",
 	"3": "hover",
-	"4": "fail",
-	"5": "wait",
-	"6": "switch_to",
-	"7": "iframe/send_keys",
-	"8": "iframe/submit",
-	"9": "iframe/click",
-	"10": "iframe/hover",
-	"11": "fail",
-	"12": "iframe/wait",
-	"13": "iframe/switch_to",
-	"14": "fail"
+	"4": "wait",
+	"5": "switch_to",
+	"6": "iframe/send_keys",
+	"7": "iframe/submit",
+	"8": "iframe/click",
+	"9": "iframe/hover",
+	"10": "iframe/wait",
+	"11": "iframe/switch_to"
   }
 }
