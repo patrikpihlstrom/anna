@@ -20,7 +20,8 @@ class Worker:
 		self.driver = factory.create(self.options)
 		self.driver.get(url)
 		for task in tasks:
-			self.execute_task(task)
+			if not self.execute_task(task):
+				break
 		self.print_result()
 
 	def execute_task(self, task):
@@ -28,6 +29,8 @@ class Worker:
 		try:
 			task.execute_events(self.driver, events)
 			task.check(self.driver, assertions)
+		except KeyboardInterrupt:
+			return False
 		except:  # log any and all exceptions that occur during tasks
 			task.passed = False
 			assert len(task.event) > 0
@@ -37,6 +40,7 @@ class Worker:
 			print(colors.green + 'passed' + colors.white)
 		else:
 			print(colors.red + 'failed' + colors.white)
+		return True
 
 	def print_result(self):
 		if self.options['verbose']:
