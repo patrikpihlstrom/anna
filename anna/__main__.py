@@ -3,7 +3,7 @@
 import argparse
 
 import worker
-from task import factory
+from anna_client.client import Client as APIClient
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='End-to-end testing using selenium')
@@ -12,14 +12,18 @@ if __name__ == '__main__':
 	                                                          'API, you\'ll only be able to test chrome & firefox '
 	                                                          'since there isn\'t a docker container for selenium with '
 	                                                          'ie.')
-	parser.add_argument('-s', '--sites', nargs='+', required=True,
+	parser.add_argument('-s', '--site', required=True,
 	                    help='Names of the sites to test (separate by space).')
 	parser.add_argument('-v', '--verbose', action='store_true', help='Print exceptions and stack traces while running.')
 	parser.add_argument('-H', '--headless', action='store_true', help='Run drivers in headless mode.')
 	parser.add_argument('-r', '--resolution', required=False, help='Set the driver resolution (defaults to 1920x1080).')
 	parser.add_argument('-i', '--id', required=False, help='Set the id (used by anna-api).')
+	parser.add_argument('-t', '--token', required=True, help='Set the API token.')
+	parser.add_argument('--host', required=True, help='Set the API host.')
 	args = vars(parser.parse_args())
 	anna = worker.Worker(args)
-	url, tasks = factory.get_tasks(args['sites'])
-	anna.run(url, tasks)
-	anna.close()
+	client = APIClient(host=args['host'], token=args['token'])
+	site_tasks = client.get_tasks({'site': args['site']})
+	for url, tasks in site_tasks.items():
+		anna.run(url, tasks)
+		anna.close()

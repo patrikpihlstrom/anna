@@ -4,11 +4,12 @@ from pprint import pprint
 
 import colors
 from driver import factory, events, assertions
+from anna_common.task import Task
 
 
 class Worker:
 	def __init__(self, options):
-		self.tasks = None
+		self.tasks = []
 		self.driver = None
 		self.exceptions = []
 		self.options = options
@@ -17,16 +18,21 @@ class Worker:
 		self.driver.close()
 
 	def run(self, url, tasks):
-		self.tasks = tasks
 		self.driver = factory.create(self.options)
 		self.driver.get(url)
 		for task in tasks:
-			if not self.execute_task(task):
-				break
+			if isinstance(task, dict):
+				task = Task().load(task)
+			elif isinstance(task, str) and self.options['verbose']:
+				print(task)
+			if isinstance(task, Task):
+				self.tasks.append(task)
+				if not self.execute_task(task):
+					break
 		self.print_result()
 
 	def execute_task(self, task):
-		print('Running %s @ %s on %s' % (task.name, task.url, self.driver.name))
+		print('Running %s @ %s on %s' % (task.name, task.site, self.driver.name))
 		try:
 			task.execute_events(self.driver, events)
 			task.check(self.driver, assertions)
@@ -35,7 +41,6 @@ class Worker:
 		except:  # log any and all exceptions that occur during tasks
 			task.passed = False
 			task.result = traceback.format_exc()
-			assert len(task.event) > 0
 			if self.options['verbose']:
 				traceback.print_exc(file=sys.stdout)
 		if task.passed:

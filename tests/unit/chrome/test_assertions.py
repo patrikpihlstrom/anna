@@ -4,7 +4,7 @@ from selenium import common
 
 from anna.driver import factory as driver_factory
 from anna.driver import assertions, events
-from anna.task import factory as task_factory
+from anna_common.task import Task
 
 
 class TestAssertions(unittest.TestCase):
@@ -20,17 +20,13 @@ class TestAssertions(unittest.TestCase):
 		self.driver.close()
 
 	def test_current_url_in(self):
-		url = task_factory.get_url('test')
-		self.driver.get(url)
-		task = task_factory.create('current_url', 'test', url)
+		task = Task().load_from_module('current_url', 'test')
 		task.execute_events(self.driver, events)
 		self.assertTrue(assertions.current_url_in(self.driver, 'test/switchto')['pass'])
 		self.assertFalse(assertions.current_url_in(self.driver, 'test/false')['pass'])
 
 	def test_current_url_is(self):
-		url = task_factory.get_url('test')
-		self.driver.get(url)
-		task = task_factory.create('current_url', 'test', url)
+		task = Task().load_from_module('current_url', 'test')
 		task.execute_events(self.driver, events)
 		self.assertTrue(assertions.current_url_is(self.driver, 'http://annahub.se:8000/test/switchto')['pass'])
 		self.assertFalse(assertions.current_url_is(self.driver, 'test/switchto')['pass'])

@@ -2,7 +2,7 @@ from selenium import common
 import unittest
 
 from anna.driver import assertions, events, factory as driver_factory
-from anna.task import factory as task_factory
+from anna_common.task import Task
 
 
 class TestEvents(unittest.TestCase):
@@ -16,66 +16,58 @@ class TestEvents(unittest.TestCase):
 		self.driver.close()
 
 	def test_click(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('click', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('click', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_current_url(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('current_url', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('current_url', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_send_keys(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('send_keys', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('send_keys', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_submit(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('submit', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('submit', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_switch_to(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('switch_to', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('switch_to', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_hover(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('hover', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('hover', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_wait(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('wait', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('wait', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_fail(self):
+		self.driver.get('http://annahub.se:8000/test/')
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('fail', site, url)
-			self.driver.get(url)
+			task = Task().load_from_module('fail', site)
 			try:
 				task.execute_events(self.driver, events)
 				result = task.check(self.driver, assertions)
@@ -86,39 +78,34 @@ class TestEvents(unittest.TestCase):
 	def test_iframe_click(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('iframe/click', site, url)
+			task = Task().load_from_module('iframe/click', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_send_keys(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('iframe/send_keys', site, url)
+			task = Task().load_from_module('iframe/send_keys', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_submit(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('iframe/submit', site, url)
+			task = Task().load_from_module('iframe/submit', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_hover(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('iframe/hover', site, url)
+			task = Task().load_from_module('iframe/hover', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_wait(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			url = task_factory.get_url(site)
-			task = task_factory.create('iframe/wait', site, url)
+			task = Task().load_from_module('iframe/wait', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
