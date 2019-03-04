@@ -16,6 +16,7 @@ setuptools.setup(
     install_requires=[
         'selenium',
         'anna_common',
-        'anna_client'
+        'anna_client',
+        'anna_tasks'
     ]
 )
