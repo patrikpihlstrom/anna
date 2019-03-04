@@ -19,9 +19,9 @@ def create(options):
 	o.headless = options['headless']
 
 	if options['driver'] == 'chrome':
-		driver = webdriver.Chrome(options=o)
+		driver = webdriver.Chrome(options=o, service_log_path='/dev/null')
 	elif options['driver'] == 'firefox':
-		driver = webdriver.Firefox(options=o, service_log_path='/tmp/geckodriver.log')
+		driver = webdriver.Firefox(options=o, service_log_path='/dev/null')
 	elif options['driver'] == 'ie':
 		driver = webdriver.Ie(options=o)
 	elif options['driver'] == 'edge':
