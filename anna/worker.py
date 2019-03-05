@@ -2,8 +2,8 @@ import sys
 import traceback
 from pprint import pprint
 
-import colors
-from driver import factory, events, assertions
+import anna.colors as colors
+from anna.driver import factory, events, assertions
 from anna_common.task import Task
 
 
