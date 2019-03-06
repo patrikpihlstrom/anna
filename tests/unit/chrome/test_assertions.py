@@ -20,13 +20,13 @@ class TestAssertions(unittest.TestCase):
 		self.driver.close()
 
 	def test_current_url_in(self):
-		task = Task().load_from_module('current_url', 'test')
+		task = Task().load_from_test_module('current_url')
 		task.execute_events(self.driver, events)
 		self.assertTrue(assertions.current_url_in(self.driver, 'test/switchto')['pass'])
 		self.assertFalse(assertions.current_url_in(self.driver, 'test/false')['pass'])
 
 	def test_current_url_is(self):
-		task = Task().load_from_module('current_url', 'test')
+		task = Task().load_from_test_module('current_url')
 		task.execute_events(self.driver, events)
 		self.assertTrue(assertions.current_url_is(self.driver, 'http://annahub.se:8000/test/switchto')['pass'])
 		self.assertFalse(assertions.current_url_is(self.driver, 'test/switchto')['pass'])

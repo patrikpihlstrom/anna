@@ -17,6 +17,6 @@ setuptools.setup(
         'selenium',
         'anna_common',
         'anna_client',
-        'anna_tasks'
+        'anna_unittasks'
     ]
 )
