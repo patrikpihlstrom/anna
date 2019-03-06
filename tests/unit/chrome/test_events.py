@@ -109,3 +109,11 @@ class TestEvents(unittest.TestCase):
 			task = Task().load_from_module('iframe/wait', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
+
+	def test_required_event(self):
+		for site in self.options['sites']:
+			task = Task().load_from_module('required.true', site)
+			with self.assertRaises(common.exceptions.TimeoutException):
+				task.execute_events(self.driver, events)
+			task = Task().load_from_module('required.false', site)
+			task.execute_events(self.driver, events)
