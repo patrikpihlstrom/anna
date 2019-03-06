@@ -78,35 +78,35 @@ class TestEvents(unittest.TestCase):
 	def test_iframe_click(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			task = Task().load_from_module('iframe/click', site)
+			task = Task().load_from_module('iframe.click', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_send_keys(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			task = Task().load_from_module('iframe/send_keys', site)
+			task = Task().load_from_module('iframe.send_keys', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_submit(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			task = Task().load_from_module('iframe/submit', site)
+			task = Task().load_from_module('iframe.submit', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_hover(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			task = Task().load_from_module('iframe/hover', site)
+			task = Task().load_from_module('iframe.hover', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
 	def test_iframe_wait(self):
 		self.test_switch_to()
 		for site in self.options['sites']:
-			task = Task().load_from_module('iframe/wait', site)
+			task = Task().load_from_module('iframe.wait', site)
 			task.execute_events(self.driver, events)
 			self.assertTrue(task.check(self.driver, assertions))
 
