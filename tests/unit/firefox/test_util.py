@@ -5,21 +5,35 @@ from anna.driver import util
 
 
 class TestUtil(unittest.TestCase):
+	driver = factory.create({'driver': 'firefox', 'headless': True})
+
 	def setUp(self):
-		self.driver = factory.create({'driver': 'firefox', 'headless': True})
-		self.targets = ['#test-send-keys']
+		self.targets = (
+			{'type': 'css', 'value': '#test-send-keys'},
+			{'type': 'xpath', 'value': '//select[@name="xpath"]/option[@value="option"]'}
+		)
+		self.list_targets = (
+			{'type': 'css', 'value': '.not-found'},
+			{'type': 'css', 'value': '.get-list'}
+		)
 		self.driver.get('http://annahub.se:8000/test/')
-		self.assertEqual(self.driver.name, 'firefox')
+		self.assertEqual(self.driver.name, 'chrome')
 
 	def tearDown(self):
 		self.driver.close()
 
 	def test_get_element_get_first(self):
-		self.assertFalse(util.get_element(self.driver, '.not-found', 0))
+		self.assertFalse(
+			util.get_element(driver=self.driver, target=self.list_targets[0]['value'], get_first=True, timeout=0))
 		for target in self.targets:
-			self.assertNotEqual(False, util.get_element(self.driver, target, 0))
+			self.assertNotEqual(False, util.get_element(driver=self.driver, target=target['value'], get_first=True,
+			                                            type=target['type']))
 
 	def test_get_element_get_list(self):
-		self.assertEqual([], util.get_element(driver=self.driver, target='.not-found', get_first=False, timeout=0))
-		self.assertIsInstance(util.get_element(driver=self.driver, target='.get-list', get_first=False, timeout=0), list)
-		self.assertEqual(10, len(util.get_element(driver=self.driver, target='.get-list', get_first=False, timeout=0)))
+		self.assertEqual([], util.get_element(driver=self.driver, target=self.list_targets[0]['value'], get_first=False,
+		                                      timeout=0))
+		self.assertIsInstance(
+			util.get_element(driver=self.driver, target=self.list_targets[1]['value'], get_first=False, timeout=0),
+			list)
+		self.assertEqual(10, len(
+			util.get_element(driver=self.driver, target=self.list_targets[1]['value'], get_first=False, timeout=0)))
