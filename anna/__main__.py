@@ -4,6 +4,7 @@ import argparse
 
 import anna.worker
 from anna_client.client import Client as APIClient
+from anna_common import task
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='End-to-end testing using selenium')
@@ -21,11 +22,10 @@ if __name__ == '__main__':
 	parser.add_argument('--host', required=True, help='Set the API host.')
 	args = vars(parser.parse_args())
 	worker = anna.worker.Worker(args)
-	client = APIClient(host=args['host'], token=args['token'])
-	site_tasks = client.get_tasks({'site': args['site']})
-	if not site_tasks:
+	#client = APIClient(host=args['host'], token=args['token'])
+	try:
+		url, tasks = task.get_tasks(args['site'])
+		worker.run(url, tasks)
+		worker.close()
+	except ImportError:
 		print('unable to fetch tasks for the specified site: ' + args['site'])
-	else:
-		for url, tasks in site_tasks.items():
-			worker.run(url, tasks)
-			worker.close()

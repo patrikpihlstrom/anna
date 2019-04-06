@@ -1,17 +1,14 @@
-import sys
-import traceback
+import sys, imp, traceback, string
 from pprint import pprint
 
 import anna.colors as colors
-from anna.driver import factory, events, assertions
-from anna_common.task import Task
+from anna_lib.selenium import factory
 
 
 class Worker:
 	def __init__(self, options):
 		self.tasks = []
 		self.driver = None
-		self.exceptions = []
 		self.options = options
 
 	def close(self):
@@ -21,21 +18,21 @@ class Worker:
 		self.driver = factory.create(self.options)
 		self.driver.get(url)
 		for task in tasks:
-			if isinstance(task, dict):
-				task = Task().load(task)
-			elif isinstance(task, str) and self.options['verbose']:
-				print(task)
-			if isinstance(task, Task):
-				self.tasks.append(task)
-				if not self.execute_task(task):
-					break
+			module = imp.new_module(task[0])
+			exec(task[1], module.__dict__)
+			task_class = string.capwords(task[0].split('.')[-1].replace('_', ' ')).replace(' ', '')
+			task = module.__dict__[task_class](self.driver)
+			self.execute_task(url, module.__dict__['__name__'], task)
+			self.tasks.append(task)
+
 		self.print_result()
 
-	def execute_task(self, task):
-		print('Running %s @ %s on %s' % (task.name, task.site, self.driver.name))
+	def execute_task(self, url, name, task):
+		print('Running %s @ %s on %s' % (name, url, self.driver.name))
 		try:
-			task.execute_events(self.driver, events)
-			task.check(self.driver, assertions)
+			task.before_execute()
+			task.execute()
+			task.after_execute()
 		except KeyboardInterrupt:
 			return False
 		except:  # log any and all exceptions that occur during tasks
@@ -59,8 +56,8 @@ class Worker:
 		for task in self.tasks:
 			if task.passed:
 				print(colors.green)
-				pprint(task.dict())
+				pprint(task.result)
 			else:
 				print(colors.red)
-				pprint(task.dict())
+				pprint(task.result)
 			print(colors.white)
