@@ -3,8 +3,7 @@
 import argparse
 
 import anna.worker
-from anna_client.client import Client as APIClient
-from anna_common import task
+from anna_lib.task.factory import get_tasks
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='End-to-end testing using selenium')
@@ -24,7 +23,7 @@ if __name__ == '__main__':
 	worker = anna.worker.Worker(args)
 	#client = APIClient(host=args['host'], token=args['token'])
 	try:
-		url, tasks = task.get_tasks(args['site'])
+		url, tasks = get_tasks(args['site'])
 		worker.run(url, tasks)
 		worker.close()
 	except ImportError:
