@@ -5,17 +5,16 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='anna_node',
-    version='1.1.8',
+    version='1.1.9',
     author='Patrik Pihlstrom',
     author_email='patrik.pihlstrom@gmail.com',
     url='https://github.com/patrikpihlstrom/anna',
     description='simulated & automated end-to-end website testing software',
     long_description=description,
     long_description_content_type='text/markdown',
-    packages=['anna', 'anna.driver'],
+    packages=['anna'],
     install_requires=[
         'anna_lib',
-        'anna_client',
-        'anna_unittasks'
+        'anna_client'
     ]
 )
