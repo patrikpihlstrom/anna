@@ -1,12 +1,18 @@
-import sys, traceback
+import sys, traceback, os
 from pprint import pprint
+from typing import List
 
 import anna.colors as colors
 from anna_lib.selenium import driver
+from anna_lib.task.abstract_task import AbstractTask
+from anna_lib.task import factory
 from anna_lib.task.factory import load_task
 
 
 class Worker:
+	tasks: List
+	task: AbstractTask
+
 	def __init__(self, options):
 		self.tasks = []
 		self.driver = None
@@ -19,7 +25,8 @@ class Worker:
 	def close(self):
 		self.driver.close()
 
-	def run(self, url, tasks):
+	def run(self, site):
+		url, tasks = factory.get_tasks(site)
 		self.driver = driver.create(driver=self.options['driver'], headless=self.options['headless'],
 		                            resolution=self.options['resolution'])
 		self.driver.get(url)
@@ -30,6 +37,7 @@ class Worker:
 		self.print_result()
 
 	def execute_task(self, url, name, task):
+		self.task = task
 		print('Running %s @ %s on %s' % (name, url, self.driver.name))
 		try:
 			task.execute()
@@ -37,6 +45,7 @@ class Worker:
 			return
 		except:
 			self.handle_exception(task)
+		self.screenshot(name)
 		if task.passed:
 			print(colors.green + 'passed' + colors.white)
 		else:
@@ -64,3 +73,18 @@ class Worker:
 		task.result = traceback.format_exc()
 		if self.options['verbose']:
 			traceback.print_exc(file=sys.stdout)
+
+	def screenshot(self, name):
+		screenshot_dir = self.get_screenshot_dir()
+		try:
+			os.makedirs(screenshot_dir)
+		except FileExistsError:
+			pass
+		except IOError:
+			return False
+		file = screenshot_dir + '/' + name + '.png'
+		return self.driver.get_screenshot_as_file(file)
+
+	@staticmethod
+	def get_screenshot_dir():
+		return '/tmp/anna/'
