@@ -13,22 +13,21 @@ class Worker:
 	tasks: List
 	task: AbstractTask
 
-	def __init__(self, options):
+	def __init__(self, options: dict):
 		self.tasks = []
 		self.driver = None
 		self.options = options
 		if self.options['resolution'] is None:
 			self.options['resolution'] = (1920, 1080)
 		else:
-			self.options['resolution'] = tuple(int(a) for a in self.options.split('x'))
+			self.options['resolution'] = tuple(int(a) for a in self.options['resolution'].split('x'))
 
 	def close(self):
 		self.driver.close()
 
-	def run(self, site):
-		url, tasks = factory.get_tasks(site)
+	def run(self, url: str, tasks: list):
 		self.driver = driver.create(driver=self.options['driver'], headless=self.options['headless'],
-		                            resolution=self.options['resolution'])
+									resolution=self.options['resolution'])
 		self.driver.get(url)
 		for task in tasks:
 			name, task = load_task(self.driver, task)

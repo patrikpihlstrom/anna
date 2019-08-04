@@ -18,12 +18,13 @@ if __name__ == '__main__':
 	parser.add_argument('-H', '--headless', action='store_true', help='Run drivers in headless mode.')
 	parser.add_argument('-r', '--resolution', required=False, help='Set the driver resolution (defaults to 1920x1080).')
 	parser.add_argument('-t', '--token', required=False, help='Set the API token.')
-	parser.add_argument('--host', required=False, help='Set the API host.')
+	parser.add_argument('--host', required=True, help='Set the API host.')
 	args = vars(parser.parse_args())
 	worker = anna.worker.Worker(args)
-	client = Client(host=args['host'], token=args['token'])
+	client = Client(endpoint=args['host'])
 	try:
-		worker.run(args['site']);
+		url, tasks = client.get_tasks(namespace=args['site'])
+		worker.run(url=url, tasks=tasks)
 		worker.close()
 	except ImportError:
 		print('unable to fetch tasks for the specified site: ' + args['site'])
