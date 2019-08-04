@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 
 import anna.worker
 from anna_client.client import Client
@@ -22,6 +23,10 @@ if __name__ == '__main__':
 	args = vars(parser.parse_args())
 	worker = anna.worker.Worker(args)
 	client = Client(endpoint=args['host'])
+	if 'ANNA_TOKEN' in os.environ:
+		client.inject_token(os.environ['ANNA_TOKEN'])
+	if 'token' in args and args['token'] is not None and len(args['token']) > 0:
+		client.inject_token(args['token'])
 	try:
 		url, tasks = client.get_tasks(namespace=args['site'])
 		worker.run(url=url, tasks=tasks)
