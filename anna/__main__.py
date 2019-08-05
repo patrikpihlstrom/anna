@@ -27,11 +27,13 @@ if __name__ == '__main__':
 		client.inject_token(os.environ['ANNA_TOKEN'])
 	if 'token' in args and args['token'] is not None and len(args['token']) > 0:
 		client.inject_token(args['token'])
+	url, tasks = False, False
 	try:
 		url, tasks = client.get_tasks(namespace=args['site'])
+	except ImportError:
+		print('unable to fetch tasks for the specified site: ' + args['site'])
+	if isinstance(url, str) and isinstance(tasks, list):
 		worker.run(url=url, tasks=tasks)
 		worker.close()
 		if not worker.passed:
 			raise ValueError('failed')
-	except ImportError:
-		print('unable to fetch tasks for the specified site: ' + args['site'])
