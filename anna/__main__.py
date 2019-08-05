@@ -31,5 +31,7 @@ if __name__ == '__main__':
 		url, tasks = client.get_tasks(namespace=args['site'])
 		worker.run(url=url, tasks=tasks)
 		worker.close()
+		if not worker.passed:
+			raise ValueError('failed')
 	except ImportError:
 		print('unable to fetch tasks for the specified site: ' + args['site'])

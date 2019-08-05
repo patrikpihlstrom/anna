@@ -5,7 +5,6 @@ from typing import List
 import anna.colors as colors
 from anna_lib.selenium import driver
 from anna_lib.task.abstract_task import AbstractTask
-from anna_lib.task import factory
 from anna_lib.task.factory import load_task
 
 
@@ -14,6 +13,7 @@ class Worker:
 	task: AbstractTask
 
 	def __init__(self, options: dict):
+		self.passed = None
 		self.tasks = []
 		self.driver = None
 		self.options = options
@@ -48,12 +48,15 @@ class Worker:
 		if task.passed:
 			print(colors.green + 'passed' + colors.white)
 		else:
+			self.passed = False
 			print(colors.red + 'failed' + colors.white)
 
 	def print_result(self):
 		if self.options['verbose']:
 			self.print_task_summary()
 		passed = len([task for task in self.tasks if task.passed])
+		if self.passed is None:
+			self.passed = passed == len(self.tasks)
 		print(str(passed) + '/' + str(len(self.tasks)))
 
 	def print_task_summary(self):
