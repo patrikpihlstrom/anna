@@ -1,10 +1,8 @@
 #!/usr/bin/env python3
 
 import argparse
-import os
 
 import anna.worker
-from anna_client.client import Client
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description='End-to-end testing using selenium')
@@ -18,22 +16,12 @@ if __name__ == '__main__':
 	parser.add_argument('-v', '--verbose', action='store_true', help='Print exceptions and stack traces while running.')
 	parser.add_argument('-H', '--headless', action='store_true', help='Run drivers in headless mode.')
 	parser.add_argument('-r', '--resolution', required=False, help='Set the driver resolution (defaults to 1920x1080).')
+	parser.add_argument('-i', '--id', required=True, help='Set the job id.')
+	parser.add_argument('--host', required=False, help='Set the API host.')
 	parser.add_argument('-t', '--token', required=False, help='Set the API token.')
-	parser.add_argument('--host', required=True, help='Set the API host.')
 	args = vars(parser.parse_args())
 	worker = anna.worker.Worker(args)
-	client = Client(endpoint=args['host'])
-	if 'ANNA_TOKEN' in os.environ:
-		client.inject_token(os.environ['ANNA_TOKEN'])
-	if 'token' in args and args['token'] is not None and len(args['token']) > 0:
-		client.inject_token(args['token'])
-	url, tasks = False, False
-	try:
-		url, tasks = client.get_tasks(namespace=args['site'])
-	except ImportError:
-		print('unable to fetch tasks for the specified site: ' + args['site'])
-	if isinstance(url, str) and isinstance(tasks, list):
-		worker.run(url=url, tasks=tasks)
-		worker.close()
-		if not worker.passed:
-			raise ValueError('failed')
+	worker.run()
+	worker.close()
+	if not worker.passed:
+		raise ValueError('failed')
