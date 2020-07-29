@@ -11,8 +11,7 @@ if __name__ == '__main__':
 															  'API, you\'ll only be able to test chrome & firefox '
 															  'since there isn\'t a docker container for selenium with '
 															  'ie.')
-	parser.add_argument('-s', '--site', required=True,
-						help='Names of the sites to test (separate by space).')
+	parser.add_argument('-s', '--site', required=True, help='Names of the sites to test (separate by space).')
 	parser.add_argument('-v', '--verbose', action='store_true', help='Print exceptions and stack traces while running.')
 	parser.add_argument('-H', '--headless', action='store_true', help='Run drivers in headless mode.')
 	parser.add_argument('-r', '--resolution', required=False, help='Set the driver resolution (defaults to 1920x1080).')
