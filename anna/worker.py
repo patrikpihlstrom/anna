@@ -7,7 +7,7 @@ from anna_client.client import Client
 import anna.colors as colors
 from anna_lib.selenium import driver
 from anna_lib.task.abstract_task import AbstractTask
-from anna_lib.task.factory import load_task
+from anna_lib.task import factory
 
 
 class Worker:
@@ -39,10 +39,10 @@ class Worker:
 			self.client.inject_token(os.environ['ANNA_TOKEN'])
 		if 'token' in self.args and self.args['token'] is not None and len(self.args['token']) > 0:
 			self.client.inject_token(self.args['token'])
-		self.url, self.tasks = self.client.get_tasks(namespace=self.args['site'])
 		if self.api:
 			self.client.update_jobs(where={'id': self.id}, data={'tasks_total': len(self.tasks), 'tasks_passed': 0})
 			self.client.update_jobs(where={'id': self.id}, data={'status': 'RUNNING'})
+		self.url, self.tasks = self.get_tasks(namespace=self.args['site'])
 		self.task_results = []
 		self.log = ''
 
@@ -54,7 +54,7 @@ class Worker:
 									resolution=self.args['resolution'])
 		self.driver.get(self.url)
 		for task in self.tasks:
-			name, task = load_task(self.driver, task)
+			name, task = factory.load_task(self.driver, task)
 			self.execute_task(self.url, name, task)
 			self.task_results.append(task)
 			if self.api:
@@ -129,3 +129,9 @@ class Worker:
 	@staticmethod
 	def get_screenshot_dir():
 		return '/tmp/anna/'
+
+	def get_tasks(self, namespace):
+		if self.api:
+			return self.client.get_tasks(namespace)
+		return factory.get_tasks(namespace)
+

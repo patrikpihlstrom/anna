@@ -5,7 +5,7 @@ with open('README.md', 'r') as f:
 
 setuptools.setup(
     name='anna_node',
-    version='1.2.4',
+    version='1.2.5',
     author='Patrik Pihlstrom',
     author_email='patrik.pihlstrom@gmail.com',
     url='https://github.com/patrikpihlstrom/anna',
