@@ -16,7 +16,7 @@ if __name__ == '__main__':
 	parser.add_argument('-v', '--verbose', action='store_true', help='Print exceptions and stack traces while running.')
 	parser.add_argument('-H', '--headless', action='store_true', help='Run drivers in headless mode.')
 	parser.add_argument('-r', '--resolution', required=False, help='Set the driver resolution (defaults to 1920x1080).')
-	parser.add_argument('-i', '--id', required=True, help='Set the job id.')
+	parser.add_argument('-i', '--id', required=False, help='Set the job id.')
 	parser.add_argument('--host', required=False, help='Set the API host.')
 	parser.add_argument('-t', '--token', required=False, help='Set the API token.')
 	args = vars(parser.parse_args())
