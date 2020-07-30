@@ -41,8 +41,10 @@ class Worker:
 			self.client.inject_token(self.args['token'])
 		self.url, self.tasks = self.get_tasks(namespace=self.args['site'])
 		if self.api:
-			self.client.update_jobs(where={'id': self.id}, data={'tasks_total': len(self.tasks), 'tasks_passed': 0})
-			self.client.update_jobs(where={'id': self.id}, data={'status': 'RUNNING'})
+			self.client.update_jobs(where={'id': self.id}, data={'tasks_total': len(self.tasks),
+			                                                     'tasks_passed': 0,
+			                                                     'status': 'RUNNING'
+			                                                     })
 		self.task_results = []
 		self.log = ''
 
